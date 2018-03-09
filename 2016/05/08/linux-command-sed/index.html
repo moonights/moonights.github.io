@@ -31,7 +31,7 @@
 
 
 
-  <meta name="keywords" content="hexo," />
+  <meta name="keywords" content="linux,shell," />
 
 
 
@@ -42,18 +42,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="hexo常用命令笔记hexo 安装123npm install hexo -g #安装  npm update hexo -g #升级  hexo init #初始化 简写12345hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章hexo p == hexo publishhexo g == hexo generate#生成hexo s == hexo server #">
-<meta name="keywords" content="hexo">
+<meta name="description" content="sed文件处理工具，本身是一个管道命令，主要是以行为单位进行处理，可以将数据行进行替换、删除、新增、选取等特定工作。sed [options] ‘command’ file(s)sed [options] -f scriptfile file(s) 替换操作：s命令sed ‘s/book/books/‘ filesed -i ‘s/book/books/g’ file使用后缀 /g 标记会替换每一">
+<meta name="keywords" content="linux,shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo常用命令笔记">
-<meta property="og:url" content="http://blog.moonights.com/2016/03/06/hexo-note/index.html">
+<meta property="og:title" content="sed">
+<meta property="og:url" content="http://blog.moonights.com/2016/05/08/linux-command-sed/index.html">
 <meta property="og:site_name" content="moonights&#39;s blog">
-<meta property="og:description" content="hexo常用命令笔记hexo 安装123npm install hexo -g #安装  npm update hexo -g #升级  hexo init #初始化 简写12345hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章hexo p == hexo publishhexo g == hexo generate#生成hexo s == hexo server #">
+<meta property="og:description" content="sed文件处理工具，本身是一个管道命令，主要是以行为单位进行处理，可以将数据行进行替换、删除、新增、选取等特定工作。sed [options] ‘command’ file(s)sed [options] -f scriptfile file(s) 替换操作：s命令sed ‘s/book/books/‘ filesed -i ‘s/book/books/g’ file使用后缀 /g 标记会替换每一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-07T07:46:39.916Z">
+<meta property="og:updated_time" content="2018-03-08T06:08:36.309Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo常用命令笔记">
-<meta name="twitter:description" content="hexo常用命令笔记hexo 安装123npm install hexo -g #安装  npm update hexo -g #升级  hexo init #初始化 简写12345hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章hexo p == hexo publishhexo g == hexo generate#生成hexo s == hexo server #">
+<meta name="twitter:title" content="sed">
+<meta name="twitter:description" content="sed文件处理工具，本身是一个管道命令，主要是以行为单位进行处理，可以将数据行进行替换、删除、新增、选取等特定工作。sed [options] ‘command’ file(s)sed [options] -f scriptfile file(s) 替换操作：s命令sed ‘s/book/books/‘ filesed -i ‘s/book/books/g’ file使用后缀 /g 标记会替换每一">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +63,7 @@
   };
 </script>
 
-  <title> hexo常用命令笔记 | moonights's blog </title>
+  <title> sed | moonights's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -353,7 +353,7 @@
           
           
             
-              hexo常用命令笔记
+              sed
             
           
         </h1>
@@ -362,8 +362,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2016-03-06T14:42:36+08:00" content="2016-03-06">
-            2016-03-06
+          <time itemprop="dateCreated" datetime="2016-05-08T10:32:21+08:00" content="2016-05-08">
+            2016-05-08
           </time>
         </span>
 
@@ -372,8 +372,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/hexo/" itemprop="url" rel="index">
-                  <span itemprop="name">hexo</span>
+                <a href="/categories/linux/" itemprop="url" rel="index">
+                  <span itemprop="name">linux</span>
                 </a>
               </span>
 
@@ -388,8 +388,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/03/06/hexo-note/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/06/hexo-note/" itemprop="commentsCount"></span>
+            <a href="/2016/05/08/linux-command-sed/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/08/linux-command-sed/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -403,13 +403,20 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="hexo常用命令笔记"><a href="#hexo常用命令笔记" class="headerlink" title="hexo常用命令笔记"></a>hexo常用命令笔记</h2><h3 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo -g <span class="comment">#安装  </span></span><br><span class="line">npm update hexo -g <span class="comment">#升级  </span></span><br><span class="line">hexo init <span class="comment">#初始化</span></span><br></pre></td></tr></table></figure>
-<h3 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo n <span class="string">"我的博客"</span> == hexo new <span class="string">"我的博客"</span> <span class="comment">#新建文章</span></span><br><span class="line">hexo p == hexo publish</span><br><span class="line">hexo g == hexo generate<span class="comment">#生成</span></span><br><span class="line">hexo s == hexo server <span class="comment">#启动服务预览</span></span><br><span class="line">hexo d == hexo deploy<span class="comment">#部署</span></span><br></pre></td></tr></table></figure>
-<h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo server <span class="comment">#Hexo 会监视文件变动并自动更新，您无须重启服务器。</span></span><br><span class="line">hexo server -s <span class="comment">#静态模式</span></span><br><span class="line">hexo server -p 5000 <span class="comment">#更改端口</span></span><br><span class="line">hexo server -i 192.168.1.1 <span class="comment">#自定义 IP</span></span><br><span class="line"></span><br><span class="line">hexo clean <span class="comment">#清除缓存 网页正常情况下可以忽略此条命令</span></span><br><span class="line">hexo g <span class="comment">#生成静态网页</span></span><br><span class="line">hexo d <span class="comment">#开始部署</span></span><br></pre></td></tr></table></figure>
-<h3 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo publish [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="添加标签"><a href="#添加标签" class="headerlink" title="添加标签"></a>添加标签</h3><p>hexo new page tags<br>确认站点配置文件里有tag_dir: tags<br>确认主题配置文件里有tags: /tags<br>编辑站点的source/tags/index.md，添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2015-10-20 06:49:50</span><br><span class="line"><span class="built_in">type</span>: <span class="string">"tags"</span></span><br><span class="line">comments: <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="添加分类"><a href="#添加分类" class="headerlink" title="添加分类"></a>添加分类</h3><p>hexo new page categories<br>确认站点配置文件里有category_dir: categories<br>确认主题配置文件里有categories: /categories<br>编辑站点的source/categories/index.md，添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: 2015-10-20 06:49:50</span><br><span class="line"><span class="built_in">type</span>: <span class="string">"categories"</span></span><br><span class="line">comments: <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="完成后部署"><a href="#完成后部署" class="headerlink" title="完成后部署"></a>完成后部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy -g</span><br><span class="line">hexo server -g</span><br></pre></td></tr></table></figure></span>
+        <span itemprop="articleBody"><h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>文件处理工具，本身是一个管道命令，主要是以行为单位进行处理，可以将数据行进行替换、删除、新增、选取等特定工作。<br>sed [options] ‘command’ file(s)<br>sed [options] -f scriptfile file(s)</p>
+<h3 id="替换操作：s命令"><a href="#替换操作：s命令" class="headerlink" title="替换操作：s命令"></a>替换操作：s命令</h3><p>sed ‘s/book/books/‘ file<br>sed -i ‘s/book/books/g’ file<br>使用后缀 /g 标记会替换每一行中的所有匹配</p>
+<h3 id="删除操作：d命令"><a href="#删除操作：d命令" class="headerlink" title="删除操作：d命令"></a>删除操作：d命令</h3><p>删除空白行：<br>sed ‘/^$/d’ file<br>删除文件的第2行：<br>sed ‘2d’ file<br>删除文件的第2行到末尾所有行：<br>sed ‘2,$d’ file<br>删除文件最后一行：<br>sed ‘$d’ file<br>删除文件中所有开头是test的行：<br>sed ‘/^test/‘d file</p>
+<h3 id="变形：y命令"><a href="#变形：y命令" class="headerlink" title="变形：y命令"></a>变形：y命令</h3><p>把1~10行内所有abcde转变为大写，注意，正则表达式元字符不能使用这个命令：<br>sed ‘1,10y/abcde/ABCDE/‘ file</p>
+<h3 id="下一个：n命令"><a href="#下一个：n命令" class="headerlink" title="下一个：n命令"></a>下一个：n命令</h3><p>如果test被匹配，则移动到匹配行的下一行，替换这一行的aa，变为bb，并打印该行，然后继续：<br>sed ‘/test/{ n; s/aa/bb/; }’ file</p>
+<h3 id="多点编辑：e命令"><a href="#多点编辑：e命令" class="headerlink" title="多点编辑：e命令"></a>多点编辑：e命令</h3><p>-e选项允许在同一行里执行多条命令：<br>sed -e ‘1,5d’ -e ‘s/test/check/‘ file</p>
+<h3 id="写入文件：w命令"><a href="#写入文件：w命令" class="headerlink" title="写入文件：w命令"></a>写入文件：w命令</h3><p>在example中所有包含test的行都被写入file里：<br>sed -n ‘/test/w file’ example</p>
+<h3 id="插入（行上）：i-命令"><a href="#插入（行上）：i-命令" class="headerlink" title="插入（行上）：i\命令"></a>插入（行上）：i\命令</h3><p>将 this is a test line 追加到以test开头的行前面：<br>sed ‘/^test/i\this is a test line’ file<br>在test.conf文件第5行之前插入this is a test line：<br>sed -i ‘5i\this is a test line’ test.conf</p>
+<h3 id="退出：q命令"><a href="#退出：q命令" class="headerlink" title="退出：q命令"></a>退出：q命令</h3><p>打印完第10行后，退出sed<br>sed ‘10q’ file</p>
+<h3 id="保持和互换：h命令和x命令"><a href="#保持和互换：h命令和x命令" class="headerlink" title="保持和互换：h命令和x命令"></a>保持和互换：h命令和x命令</h3><p>互换模式空间和保持缓冲区的内容。也就是把包含test与check的行互换：<br>sed -e ‘/test/h’ -e ‘/check/x’ file</p>
+<h3 id="打印奇数行或偶数行"><a href="#打印奇数行或偶数行" class="headerlink" title="打印奇数行或偶数行"></a>打印奇数行或偶数行</h3><p>方法1：<br>sed -n ‘p;n’ test.txt  #奇数行<br>sed -n ‘n;p’ test.txt  #偶数行</p>
+<p>方法2：<br>sed -n ‘1~2p’ test.txt  #奇数行<br>sed -n ‘2~2p’ test.txt  #偶数行</p>
+<h3 id="打印匹配字符串的下一行"><a href="#打印匹配字符串的下一行" class="headerlink" title="打印匹配字符串的下一行"></a>打印匹配字符串的下一行</h3><p>grep -A 1 SCC URFILE<br>sed -n ‘/SCC/{n;p}’ URFILE<br>awk ‘/SCC/{getline; print}’ URFILE</p>
+</span>
       
     </div>
 
@@ -417,7 +424,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag">#hexo</a>
+            <a href="/tags/linux/" rel="tag">#linux</a>
+          
+            <a href="/tags/shell/" rel="tag">#shell</a>
           
         </div>
       
@@ -426,13 +435,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/07/linux-command-note/" rel="prev">linux常用命令</a>
+              <a href="/2016/06/09/git-quick-start/" rel="prev">git-quick-start</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/20/hello-world/" rel="next">Hello World</a>
+              <a href="/2016/05/07/vboxmanage-note/" rel="next">vboxmanage</a>
             
           </div>
         </div>
@@ -703,7 +712,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo常用命令笔记"><span class="nav-number">1.</span> <span class="nav-text">hexo常用命令笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-安装"><span class="nav-number">1.1.</span> <span class="nav-text">hexo 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简写"><span class="nav-number">1.2.</span> <span class="nav-text">简写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器"><span class="nav-number">1.3.</span> <span class="nav-text">服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#草稿"><span class="nav-number">1.4.</span> <span class="nav-text">草稿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加标签"><span class="nav-number">1.5.</span> <span class="nav-text">添加标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加分类"><span class="nav-number">1.6.</span> <span class="nav-text">添加分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成后部署"><span class="nav-number">1.7.</span> <span class="nav-text">完成后部署</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sed"><span class="nav-number">1.</span> <span class="nav-text">sed</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#替换操作：s命令"><span class="nav-number">1.1.</span> <span class="nav-text">替换操作：s命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除操作：d命令"><span class="nav-number">1.2.</span> <span class="nav-text">删除操作：d命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变形：y命令"><span class="nav-number">1.3.</span> <span class="nav-text">变形：y命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一个：n命令"><span class="nav-number">1.4.</span> <span class="nav-text">下一个：n命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多点编辑：e命令"><span class="nav-number">1.5.</span> <span class="nav-text">多点编辑：e命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入文件：w命令"><span class="nav-number">1.6.</span> <span class="nav-text">写入文件：w命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入（行上）：i-命令"><span class="nav-number">1.7.</span> <span class="nav-text">插入（行上）：i\命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出：q命令"><span class="nav-number">1.8.</span> <span class="nav-text">退出：q命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保持和互换：h命令和x命令"><span class="nav-number">1.9.</span> <span class="nav-text">保持和互换：h命令和x命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印奇数行或偶数行"><span class="nav-number">1.10.</span> <span class="nav-text">打印奇数行或偶数行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印匹配字符串的下一行"><span class="nav-number">1.11.</span> <span class="nav-text">打印匹配字符串的下一行</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -756,9 +765,9 @@
 
   <script type="text/javascript">
     var disqus_shortname = 'moonights';
-    var disqus_identifier = '2016/03/06/hexo-note/';
-    var disqus_title = 'hexo常用命令笔记';
-    var disqus_url = 'http://blog.moonights.com/2016/03/06/hexo-note/';
+    var disqus_identifier = '2016/05/08/linux-command-sed/';
+    var disqus_title = 'sed';
+    var disqus_url = 'http://blog.moonights.com/2016/05/08/linux-command-sed/';
 
     function run_disqus_script(disqus_script){
       var dsq = document.createElement('script');
