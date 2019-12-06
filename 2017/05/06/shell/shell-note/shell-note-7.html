@@ -1,0 +1,172 @@
+<hr>
+<p>title: Shell-学习笔记系列：（七）Shell流程控制<br>date: 2017-05-25 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><p>Shell 流程控制</p>
+<p>区别于其他编程语言，shell的流程控制不可为空，如</p>
+<p>if(a&gt;b){<br>  System.out.println(“ok”);<br>}else{<br>  //此处不做任何事<br>}</p>
+<p>但是在shell中不能出现不做任何事的分支语句<br>1、if else</p>
+<pre><code>if语句格式
+
+1
+2
+3
+4
+5
+6
+
+
+
+if condition
+then
+    command1
+    command2
+    ...
+fi # 是if的倒写
+
+每个句子可以用;分号结束，可以写在一行好几个语句。
+
+if else
+
+1
+2
+3
+4
+5
+6
+7
+8
+
+
+
+if condition
+then
+    command1
+    command2
+    ...
+else
+    command
+fi
+
+if else-if else
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+
+if condition1
+then
+    command1
+elif condition2 #类似python中，else if是写作elif
+then
+    command2
+else
+    command
+fi
+</code></pre><p>2、for循环</p>
+<p>shell的for循环格式：</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</p>
+<p>for var in item1 item2 … itemN<br>do<br>    command1<br>    command2<br>    …</p>
+<p>done #for循环结束的标识</p>
+<p>#写成一行<br>for var in item1 item2 … itemN;do command1; command2;…;done;</p>
+<p>3、while语句</p>
+<p>格式：</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</p>
+<p>while condition<br>do<br>    command<br>done</p>
+<p>#示例</p>
+<p>#!/bin/sh<br>int=1<br>while(( $int&lt;=5 ))<br>do<br>        echo $int<br>        let “int++” # let是个关键命令<br>done</p>
+<p>可以结合read命令接收输入信息<br>4、无限循环</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</p>
+<p>while :<br>do<br>    command<br>done</p>
+<p>#或者<br>while true<br>do<br>    command<br>done</p>
+<p>#或者<br>for (( ; ; ))</p>
+<p>5、until循环</p>
+<p>shell所有的until循环类似于一个特殊的for循环，知道满足条件时候才停止。一般还是while</p>
+<p>1<br>2<br>3<br>4</p>
+<p>until condition<br>do<br>    command<br>done</p>
+<p>条件可为任意测试条件，测试发生在循环末尾，因此循环至少执行一次—请注意这一点。<br>6、case</p>
+<p>类似其他语言的switch…case语句</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</p>
+<p>case value in<br>mode1)<br>    command1<br>    …<br>    ;; #case的结束标志<br>mode2)<br>    command2<br>    …<br>    ;;<br>esac #case的反写</p>
+<p>value只会匹配一个case，或者不匹配，则mode可用*号通配</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</p>
+<p>echo ‘输入 1 到 4 之间的数字:’<br>echo ‘你输入的数字为:’<br>read aNum<br>case $aNum in<br>    1)  echo ‘你选择了 1’<br>    ;;<br>    2)  echo ‘你选择了 2’<br>    ;;<br>    3)  echo ‘你选择了 3’<br>    ;;<br>    4)  echo ‘你选择了 4’<br>    ;;<br>    *)  echo ‘你没有输入 1 到 4 之间的数字’<br>    ;;<br>esac</p>
+<p>7、跳出循环</p>
+<p>shell也使用break和continue来跳出循环。</p>
+<pre><code>break
+
+跳出所有循环，终止后面的执行。
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+
+
+
+#!/bin/bash
+while :
+do
+    echo -n &quot;输入 1 到 5 之间的数字:&quot;
+    read aNum
+    case $aNum in
+        1|2|3|4|5) echo &quot;你输入的数字为 $aNum!&quot;
+        ;;
+        *) echo &quot;你输入的数字不是 1 到 5 之间的! 游戏结束&quot;
+            break
+        ;;
+    esac
+done
+
+continue
+
+跳出本次循环，执行下一轮循环
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+
+
+
+#!/bin/bash
+while :
+do
+    echo -n &quot;输入 1 到 5 之间的数字: &quot;
+    read aNum
+    case $aNum in
+        1|2|3|4|5) echo &quot;你输入的数字为 $aNum!&quot;
+        ;;
+        *) echo &quot;你输入的数字不是 1 到 5 之间的!&quot;
+            continue
+            echo &quot;游戏结束&quot;
+        ;;
+    esac
+done
+</code></pre><p>8、esac</p>
+<p>case语句区别于C语言，用esac作为结束标志，)和;;标识每个case。</p>

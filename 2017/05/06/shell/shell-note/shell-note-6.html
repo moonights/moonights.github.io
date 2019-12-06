@@ -1,0 +1,97 @@
+<hr>
+<p>title: Shell-学习笔记系列：（六）Shell命令<br>date: 2017-05-23 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><p>Shell echo命令</p>
+<p>类似于php的echo，shell的echo用于输出字符串，格式echo string</p>
+<pre><code>显示普通字符串
+</code></pre><p>1<br>2<br>3</p>
+<p>echo “Hello World”</p>
+<p>#可以不带引号<br>echo Hello World</p>
+<pre><code>显示转义字符
+
+1
+2
+3
+
+
+
+echo &quot;\&quot;It is a test\&quot;&quot;
+#输出结果
+&quot;It is a test&quot;
+
+显示变量
+
+read命令从标准输入中读取一行，并把输入行的每个字段指定给shell变量
+
+
+
+#!/bin/sh
+read name
+echo &quot;$name It is a test&quot;
+#运行效果：
+[root@www ~]# sh test.sh
+OK                     #标准输入
+OK It is a test        #输出
+
+显示换行
+
+
+
+echo -e &quot;Ok ! \n&quot; # -e 开启转义
+echo &quot;It is a test&quot;
+#输出结果：注意ok后面有换行
+OK!
+It it a tes
+
+显示不换行
+
+
+
+#!/bin/sh
+echo -e &quot;OK! \c&quot; # -e 开启转义 \c 不换行
+echo &quot;It is a test&quot;
+#结果：
+OK! It is a test
+
+显示结果定向至文件
+
+
+echo &quot;It is a test&quot; &gt; test.txt
+
+原样输出字符，不转义不取变量，需要结合单引号
+
+
+
+echo &apos;$name\&quot;&apos;
+#输出结果
+$name\&quot;
+
+显示命令执行结果
+
+==命令用` 来包裹==
+
+
+echo `data`
+#结果：
+Thu Jul 24 10:08:46 CST 2014
+</code></pre><p>Shell printf命令</p>
+<p>类似C语言的printf()函数，shell使用printf会比echo更具有跨平台移植性。可以类似C的printf()函数使用一些复杂的表达式，printf不支持自动换行，需要借助\n</p>
+<p>printf format-string [args…]</p>
+<p>示例，模拟shell输出，</p>
+<p>$ echo “hello ,shell”<br>hello ,shell<br>$ printf “hello ,shell \n”<br>hello ,shell<br>$</p>
+<p>脚本化的printf命令使用：</p>
+<p>#!/bin/bash</p>
+<h1 id="author-菜鸟教程"><a href="#author-菜鸟教程" class="headerlink" title="author:菜鸟教程"></a>author:菜鸟教程</h1><h1 id="url-www-runoob-com"><a href="#url-www-runoob-com" class="headerlink" title="url:www.runoob.com"></a>url:<a href="http://www.runoob.com">www.runoob.com</a></h1><p>printf “%-10s %-8s %-4s\n” 姓名 性别 体重kg<br>printf “%-10s %-8s %-4.2f\n” 郭靖 男 66.1234<br>printf “%-10s %-8s %-4.2f\n” 杨过 男 48.6543<br>printf “%-10s %-8s %-4.2f\n” 郭芙 女 47.9876</p>
+<p>执行脚本，显示结果：</p>
+<p>姓名     性别   体重kg<br>郭靖     男      66.12<br>杨过     男      48.65<br>郭芙     女      47.99</p>
+<p>%s,%c,%d,%f都是格式替换符，%-10s指一个宽度为10个字符（-表示左对齐，没有则右对齐），任何字符都会被显示在10个字符宽的字符内，如果不足则自动以空格填充，超过也会将内容全部显示出来。</p>
+<p>%-4.2f 指格式化为小数，其中.2指保留2位小数。</p>
+<p>#!/bin/bash</p>
+<h1 id="author-菜鸟教程-1"><a href="#author-菜鸟教程-1" class="headerlink" title="author:菜鸟教程"></a>author:菜鸟教程</h1><h1 id="url-www-runoob-com-1"><a href="#url-www-runoob-com-1" class="headerlink" title="url:www.runoob.com"></a>url:<a href="http://www.runoob.com">www.runoob.com</a></h1><h1 id="format-string为双引号"><a href="#format-string为双引号" class="headerlink" title="format-string为双引号"></a>format-string为双引号</h1><p>printf “%d %s\n” 1 “abc”</p>
+<h1 id="单引号与双引号效果一样"><a href="#单引号与双引号效果一样" class="headerlink" title="单引号与双引号效果一样"></a>单引号与双引号效果一样</h1><p>printf ‘%d %s\n’ 1 “abc” </p>
+<h1 id="没有引号也可以输出"><a href="#没有引号也可以输出" class="headerlink" title="没有引号也可以输出"></a>没有引号也可以输出</h1><p>printf %s abcdef</p>
+<h1 id="格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string-被重用"><a href="#格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string-被重用" class="headerlink" title="格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string 被重用"></a>格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string 被重用</h1><p>printf %s abc def<br>printf “%s\n” abc def<br>printf “%s %s %s\n” a b c d e f g h i j</p>
+<h1 id="如果没有-arguments，那么-s-用NULL代替，-d-用-0-代替"><a href="#如果没有-arguments，那么-s-用NULL代替，-d-用-0-代替" class="headerlink" title="如果没有 arguments，那么 %s 用NULL代替，%d 用 0 代替"></a>如果没有 arguments，那么 %s 用NULL代替，%d 用 0 代替</h1><p>printf “%s and %d \n”</p>
+<p>Printf的转移序列<br>序列  说明<br>\a  警告字符，通常为ASCII的BEL字符<br>\b  后退<br>\c  抑制不显示输出结果中任何姐wide换行字符（只在%b格式指示控制符下的参数字符串中有效），而且任何留在参数里的字符，任何接下来的采纳书以及任何留在格式字符串中的字符，都被忽略。<br>\f  换页<br>\n  换行<br>\r  回车<br>\t  水平tab<br>\v  竖直tab<br>\  转义后输出一个\符号<br>\d dd   表示1–3位的八进制字符，仅在格式字符串中有效。<br>\0 dd d     表示1–3位的八进制字符<br>Shell text命令</p>
+<p>shell中test命令用于测试条件是否成立，可进行数字、字符和文件的条件测试</p>
+<p>#!/bin/bash</p>
+<p>#用之前的各种运算符，测试test<br>num1=100<br>num2=200<br>if test $[num1] -eq $[num2]<br>then<br>    echo ‘true’<br>else<br>    echo ‘false’<br>fi</p>

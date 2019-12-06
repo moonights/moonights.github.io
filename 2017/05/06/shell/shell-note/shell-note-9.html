@@ -1,0 +1,45 @@
+<hr>
+<p>title: Shell-学习笔记系列：（九）Shell输入/输出重定向<br>date: 2017-06-10 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><p>Shell 输入/输出重定向</p>
+<p>类Uinx系统中，默认标准输入输出设备就是shell终端。重定向命令列表：<br>命令  说明<br>command &gt; file  输出重定向到file<br>command &lt; file  输出重定向到file<br>command &gt;&gt; file     输出追加到file<br>n &gt; file    文件描述符为n的文件重定向到file<br>n &gt;&gt; file   文件描述符为n的文件追加到file<br>n &gt;&amp; m  输出文件m和n合并<br>n &lt;&amp; m  输入文件m和n合并<br>&lt;&lt; tag  开始标记tag和结束标记tag之间的内容作为输入</p>
+<pre><code>注意：需要注意的是文件描述符 0 通常是标准输入（STDIN），1 是标准输出（STDOUT），2 是标准错误输出（STDERR）。
+</code></pre><p>1、输出重定向</p>
+<p>1</p>
+<p>command1 &gt; file1</p>
+<p>若file1存在，则被替代。可以用&gt;&gt;追加符号，则不替代。<br>2、输入重定向</p>
+<p>1</p>
+<p>command1 &lt; file1</p>
+<p>1</p>
+<p>command1 &lt; infile &gt; outfile</p>
+<p>同时替换输入和输出，执行command1，从文件infile读取内容，然后将输出写入到outfile中。<br>3、重定向深入讲解</p>
+<p>一般类unix系统命令运行会同时打开三个文件：</p>
+<pre><code>标准输入文件(stdin)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。
+标准输出文件(stdout)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。
+标准错误文件(stderr)：stderr的文件描述符为2，Unix程序会向stderr流中写入错误信息
+</code></pre><p>默认情况下，command &gt; file 将 stdout 重定向到 file，command &lt; file 将stdin 重定向到 file。</p>
+<p>如果希望 stderr 重定向到 file，可以这样写：</p>
+<p>1<br>2</p>
+<p>#模拟终端<br>$ command 2 &gt; file</p>
+<p>若要追加&gt;&gt;符号，其中2代表标准错误文件的代号。</p>
+<p>如果希望将stdout和stderr合并后重定向到file</p>
+<p>1<br>2<br>3<br>4<br>5</p>
+<p>command &gt; file 2&gt;&amp;1</p>
+<p>#或者<br>command &gt;&gt; file 2&gt;&amp;1</p>
+<p>#如果输入、输出都重定向<br>command <file1 >file2</p>
+<p>4、Here Document</p>
+<p>Here Document是shell的一种特殊重定向方式，用于将输入重定向到一个交互式shell脚本或程序：</p>
+<p>1<br>2<br>3</p>
+<p>command &lt;&lt; delimiter<br>    document<br>delimiter</p>
+<p>作用将delimiter之间的document作为输入传递给command</p>
+<p>注意：结尾的delimiter前后不得有任何符号，包括tab和空格。</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</p>
+<p>wc -l &lt;&lt; EOF<br>    nihao<br>    zhendehenhao<br>    shime<br>    ok<br>EOF </p>
+<p>#输出结果，获得的EOF之间的内容的行数。<br>4</p>
+<p>5、/dev/null文件</p>
+<p>若希望执行命令不在屏幕输出，可重定向到/dev/null</p>
+<p>1</p>
+<p>command &gt; /dev/null</p>
+<p>/dev/null为特殊文件，写入的内容立即不见，不可读出。</p>
+<p>如果屏蔽stdout和stderr</p>
+<p>1</p>
+<p>command &gt; /dev/null 2&gt;&amp;1</p>

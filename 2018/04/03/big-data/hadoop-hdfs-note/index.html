@@ -31,7 +31,7 @@
 
 
 
-  <meta name="keywords" content="hadoop,hdfs,bigdata," />
+  <meta name="keywords" content="hadoop,hdfs," />
 
 
 
@@ -42,18 +42,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="##HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 http://www.daniubiji.cn/archives/596 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存">
-<meta name="keywords" content="hadoop,hdfs,bigdata">
+<meta name="description" content="hdfs-笔记HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存3份。 `运行在廉价的机器上。（商用机） `适合大数据的处理。多">
+<meta name="keywords" content="hadoop,hdfs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hdfs-笔记">
 <meta property="og:url" content="http://blog.moonights.com/2018/04/03/big-data/hadoop-hdfs-note/index.html">
 <meta property="og:site_name" content="moonights&#39;s blog">
-<meta property="og:description" content="##HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 http://www.daniubiji.cn/archives/596 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存">
+<meta property="og:description" content="hdfs-笔记HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存3份。 `运行在廉价的机器上。（商用机） `适合大数据的处理。多">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-03T03:49:31.591Z">
+<meta property="og:updated_time" content="2019-12-06T08:04:23.225Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hdfs-笔记">
-<meta name="twitter:description" content="##HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 http://www.daniubiji.cn/archives/596 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存">
+<meta name="twitter:description" content="hdfs-笔记HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。 hdfs特点HDFS有很多特点`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存3份。 `运行在廉价的机器上。（商用机） `适合大数据的处理。多">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -372,8 +372,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/hadoop/" itemprop="url" rel="index">
-                  <span itemprop="name">hadoop</span>
+                <a href="/categories/big-data/" itemprop="url" rel="index">
+                  <span itemprop="name">big-data</span>
                 </a>
               </span>
 
@@ -403,16 +403,13 @@
       
 
       
-        <span itemprop="articleBody"><p>##<br>HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。</p>
-<p><a href="http://www.daniubiji.cn/archives/596" target="_blank" rel="noopener">http://www.daniubiji.cn/archives/596</a></p>
+        <span itemprop="articleBody"><h2 id="hdfs-笔记"><a href="#hdfs-笔记" class="headerlink" title="hdfs-笔记"></a>hdfs-笔记</h2><p>HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。</p>
 <h3 id="hdfs特点"><a href="#hdfs特点" class="headerlink" title="hdfs特点"></a>hdfs特点</h3><p>HDFS有很多特点<br>`保存多个副本，且提供容错机制，副本丢失或宕机自动恢复。默认存3份。</p>
 <p>`运行在廉价的机器上。（商用机）</p>
 <p>`适合大数据的处理。多大？多小？HDFS默认会将文件分割成block，64M为1个block。然后将block按键值对存储在HDFS上，并将键值对的映射存到内存中。如果小文件太多，那内存的负担会很重。</p>
-<h3 id="HDFS中常用到的命令"><a href="#HDFS中常用到的命令" class="headerlink" title="HDFS中常用到的命令"></a>HDFS中常用到的命令</h3><p>1、hadoop fs<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls /</span><br><span class="line">hadoop fs -lsr</span><br><span class="line">hadoop fs -mkdir /user/hadoop</span><br><span class="line">hadoop fs -put a.txt /user/hadoop/</span><br><span class="line">hadoop fs -get /user/hadoop/a.txt /</span><br><span class="line">hadoop fs -cp src dst</span><br><span class="line">hadoop fs -mv src dst</span><br><span class="line">hadoop fs -cat /user/hadoop/a.txt</span><br><span class="line">hadoop fs -rm /user/hadoop/a.txt</span><br><span class="line">hadoop fs -rmr /user/hadoop/a.txt</span><br><span class="line">hadoop fs -text /user/hadoop/a.txt</span><br><span class="line">hadoop fs -copyFromLocal localsrc dst 与hadoop fs -put功能类似。</span><br><span class="line">hadoop fs -moveFromLocal localsrc dst 将本地文件上传到hdfs，同时删除本地文件。</span><br></pre></td></tr></table></figure></p>
-<p>2、hadoop fsadmin?<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop dfsadmin -report</span><br><span class="line">hadoop dfsadmin -safemode enter | leave | get | <span class="built_in">wait</span></span><br><span class="line">hadoop dfsadmin -setBalancerBandwidth 1000</span><br></pre></td></tr></table></figure></p>
-<p>3、hadoop fsck</p>
-<p>4、start-balancer.sh</p>
-</span>
+<h3 id="HDFS中常用到的命令"><a href="#HDFS中常用到的命令" class="headerlink" title="HDFS中常用到的命令"></a>HDFS中常用到的命令</h3><h4 id="hadoop-fs"><a href="#hadoop-fs" class="headerlink" title="hadoop fs"></a>hadoop fs</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls /</span><br><span class="line">hadoop fs -lsr</span><br><span class="line">hadoop fs -mkdir /user/hadoop</span><br><span class="line">hadoop fs -put a.txt /user/hadoop/</span><br><span class="line">hadoop fs -get /user/hadoop/a.txt /</span><br><span class="line">hadoop fs -cp src dst</span><br><span class="line">hadoop fs -mv src dst</span><br><span class="line">hadoop fs -cat /user/hadoop/a.txt</span><br><span class="line">hadoop fs -rm /user/hadoop/a.txt</span><br><span class="line">hadoop fs -rmr /user/hadoop/a.txt</span><br><span class="line">hadoop fs -text /user/hadoop/a.txt</span><br><span class="line">hadoop fs -copyFromLocal localsrc dst 与hadoop fs -put功能类似。</span><br><span class="line">hadoop fs -moveFromLocal localsrc dst 将本地文件上传到hdfs，同时删除本地文件。</span><br></pre></td></tr></table></figure>
+<h4 id="hadoop-fsadmin"><a href="#hadoop-fsadmin" class="headerlink" title="hadoop fsadmin?"></a>hadoop fsadmin?</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop dfsadmin -report</span><br><span class="line">hadoop dfsadmin -safemode enter | leave | get | <span class="built_in">wait</span></span><br><span class="line">hadoop dfsadmin -setBalancerBandwidth 1000</span><br></pre></td></tr></table></figure>
+<h4 id="hadoop-fsck"><a href="#hadoop-fsck" class="headerlink" title="hadoop fsck"></a>hadoop fsck</h4><h4 id="start-balancer-sh"><a href="#start-balancer-sh" class="headerlink" title="start-balancer.sh"></a>start-balancer.sh</h4></span>
       
     </div>
 
@@ -424,8 +421,6 @@
           
             <a href="/tags/hdfs/" rel="tag">#hdfs</a>
           
-            <a href="/tags/bigdata/" rel="tag">#bigdata</a>
-          
         </div>
       
 
@@ -433,7 +428,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/03/lvs负载均衡机制/" rel="prev">lvs负载均衡机制</a>
+              <a href="/2018/04/03/linux/lvs负载均衡机制/" rel="prev">lvs负载均衡机制</a>
             
           </div>
 
@@ -630,21 +625,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -710,7 +705,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hdfs特点"><span class="nav-number">1.</span> <span class="nav-text">hdfs特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS中常用到的命令"><span class="nav-number">2.</span> <span class="nav-text">HDFS中常用到的命令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hdfs-笔记"><span class="nav-number">1.</span> <span class="nav-text">hdfs-笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hdfs特点"><span class="nav-number">1.1.</span> <span class="nav-text">hdfs特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS中常用到的命令"><span class="nav-number">1.2.</span> <span class="nav-text">HDFS中常用到的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop-fs"><span class="nav-number">1.2.1.</span> <span class="nav-text">hadoop fs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop-fsadmin"><span class="nav-number">1.2.2.</span> <span class="nav-text">hadoop fsadmin?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop-fsck"><span class="nav-number">1.2.3.</span> <span class="nav-text">hadoop fsck</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#start-balancer-sh"><span class="nav-number">1.2.4.</span> <span class="nav-text">start-balancer.sh</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

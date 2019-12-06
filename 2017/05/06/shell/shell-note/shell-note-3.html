@@ -1,0 +1,69 @@
+<hr>
+<p>title: Shell-学习笔记系列：（三）Shell传递参数<br>date: 2017-05-20 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="Shell传递参数"><a href="#Shell传递参数" class="headerlink" title="Shell传递参数"></a>Shell传递参数</h2><p>在执行shell脚本时，可以向脚本传递参数，脚本内获取参数的格式：$n，n代表数字编号，为脚本内需要获取的参数的编号。</p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>示例向脚本传递三个参数，并输出，$0为执行文件名：</p>
+<pre><code class="bash"><span class="meta">#!/bin/bash</span>
+<span class="comment">#传参测试</span>
+<span class="built_in">echo</span> <span class="string">"Shell 传参测试"</span>;
+<span class="built_in">echo</span> <span class="string">"file name: <span class="variable">$0</span>"</span>;
+<span class="built_in">echo</span> <span class="string">"first variable: <span class="variable">$1</span>"</span>;
+<span class="built_in">echo</span> <span class="string">"second variable: <span class="variable">$2</span>"</span>
+<span class="built_in">echo</span> <span class="string">"third variable: <span class="variable">$3</span>"</span>;
+</code></pre>
+<p>通过赋予权限，或者指定执行，可实现输出：</p>
+<pre><code class="bash">$ chmod +x test.sh
+<span class="comment"># $符号在次表示root用户执行，下面是传入1，2，3，三个数到脚本</span>
+$ ./test.sh 1 2 3 
+<span class="comment">#输出结果：</span>
+Shell 传参测试
+file name: ./test.sh
+first variable: 1
+second variable 2
+third variable 3
+
+另有几个特殊字符处理参数：
+参数处理    说明
+<span class="variable">$#</span>  传递到脚本的参数的个数
+$*  以一个单字符串显示所有向脚本传递的参数。
+$$  脚本运行的当前进程ID号
+$!  后台运行的最后一个进程的ID号
+<span class="variable">$@</span>  类似$*，使用时许加引号，并在引号中返回每个参数。
+$-  显示shell使用的当前选选项，类似<span class="built_in">set</span>命令
+$?  显示最后命令的退出状态。0 表示无错误。其他都是错。
+</code></pre>
+<pre><code class="bash"><span class="meta">#!/bin/sh</span>
+<span class="built_in">echo</span> <span class="string">"Shell 传递参数实例！"</span>;
+<span class="built_in">echo</span> <span class="string">"第一个参数为：<span class="variable">$1</span>"</span>;
+<span class="built_in">echo</span> <span class="string">"参数个数为：<span class="variable">$#</span>"</span>;
+<span class="built_in">echo</span> <span class="string">"传递的参数作为一个字符串显示：$*"</span>;
+</code></pre>
+<p>执行效果：</p>
+<pre><code class="bash">$ chmod +x test.sh 
+$ ./test.sh 1 2 3
+Shell 传递参数实例！
+第一个参数为：1
+参数个数为：3
+传递的参数作为一个字符串显示：1 2 3
+</code></pre>
+<p>$*与$@的异同：</p>
+<p>都是应用所有参数</p>
+<p>不同：只有在双引号中体现。假设在脚本运行时写了三个参数 1、2、3，，则 “ * “ 等价于 “1 2 3”（传递了一个参数），而 “@” 等价于 “1” “2” “3”（传递了三个参数）。</p>
+<pre><code>#!/bin/bash
+echo &quot;-- \$* demo ---&quot;
+for i in &quot;$*&quot;;do
+    echo $i
+done
+echo &quot;-- \$@ demo ---&quot;
+for i in &quot;$@&quot;; do
+    echo $i
+done
+</code></pre><p>执行效果：</p>
+<pre><code>$ chmod +x test.sh 
+$ ./test.sh 1 2 3
+-- $* 演示 ---
+1 2 3
+-- $@ 演示 ---
+1
+2
+3
+</code></pre>

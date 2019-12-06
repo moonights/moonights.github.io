@@ -1,0 +1,19 @@
+<hr>
+<p>title: Shell-学习笔记系列：（十）Shell文件包含<br>date: 2017-07-12 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="Shell文件包含"><a href="#Shell文件包含" class="headerlink" title="Shell文件包含"></a>Shell文件包含</h2><p>shell也可以使用外部脚本，便于封装：</p>
+<p>. filename #注意点号(.)与文件名之间有空格<br>或source filename</p>
+<p>示例：test1.sh</p>
+<pre><code>#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+url=&quot;http://www.runoob.com&quot;
+</code></pre><p>test2.sh</p>
+<pre><code>#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+#使用 . 号来引用test1.sh 文件
+. ./test1.sh
+# 或者使用以下包含文件代码
+# source ./test1.sh
+echo &quot;菜鸟教程官网地址：$url&quot;
+</code></pre><p>执行时候test2.sh只需要test2.sh有执行权限即可，test1.sh不一定需要。</p>

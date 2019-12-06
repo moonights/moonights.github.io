@@ -1,0 +1,64 @@
+<hr>
+<p>title: Shell-学习笔记系列：（五）Shell运算符<br>date: 2017-05-22 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="Shell运算符"><a href="#Shell运算符" class="headerlink" title="Shell运算符"></a>Shell运算符</h2><p>shell支持多种运算符：</p>
+<pre><code>算数运算符
+关系运算符
+布尔运算符
+字符串运算符
+文件测试运算符
+</code></pre><p>原生Bash不支持简单的数学运算，可以用awk和expr实现。</p>
+<pre><code>#!/bin/sh
+val=`expr 2 + 2`
+echo $val
+#注意，expr用反引号，表达式和运算符之间必须有空格，2+2就不行。
+</code></pre><h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>若a = 10，b = 20<br>运算符     说明  举例</p>
+<ul>
+<li>加号  <code>expr \$a + \$b</code>，result = 30</li>
+</ul>
+<ul>
+<li>减号  <code>expr \$a - \$b</code>，result = -10</li>
+</ul>
+<ul>
+<li>乘号  <code>expr \$a * \$b</code>，result = 200<br>/   除号  <code>expr \$b / \$a</code>，result = 2<br>%   取余  <code>expr \$b % \$a</code>，result=0<br>=   赋值  a=$b，将b的值赋给a<br>==  相等，比较数字，同则true。     [\$a == \$b]返回false<br>!=  不等，比较数字，不同的true。    [\$a != \$b]返回true。</li>
+</ul>
+<pre><code class="bash"><span class="meta">#!/bin/bash</span>
+<span class="comment"># author:菜鸟教程</span>
+<span class="comment"># url:www.runoob.com</span>
+a=10
+b=20
+val=`expr <span class="variable">$a</span> + <span class="variable">$b</span>`
+<span class="built_in">echo</span> <span class="string">"a + b : <span class="variable">$val</span>"</span>
+val=`expr <span class="variable">$a</span> - <span class="variable">$b</span>`
+<span class="built_in">echo</span> <span class="string">"a - b : <span class="variable">$val</span>"</span>
+val=`expr <span class="variable">$a</span> \* <span class="variable">$b</span>`
+<span class="built_in">echo</span> <span class="string">"a * b : <span class="variable">$val</span>"</span>
+val=`expr <span class="variable">$b</span> / <span class="variable">$a</span>`
+<span class="built_in">echo</span> <span class="string">"b / a : <span class="variable">$val</span>"</span>
+val=`expr <span class="variable">$b</span> % <span class="variable">$a</span>`
+<span class="built_in">echo</span> <span class="string">"b % a : <span class="variable">$val</span>"</span>
+<span class="keyword">if</span> [ <span class="variable">$a</span> == <span class="variable">$b</span> ]
+<span class="keyword">then</span>
+   <span class="built_in">echo</span> <span class="string">"a 等于 b"</span>
+<span class="keyword">fi</span>
+<span class="keyword">if</span> [ <span class="variable">$a</span> != <span class="variable">$b</span> ]
+<span class="keyword">then</span>
+   <span class="built_in">echo</span> <span class="string">"a 不等于 b"</span>
+<span class="keyword">fi</span>
+</code></pre>
+<p>执行结果：</p>
+<pre><code>a + b : 30
+a - b : -10
+a * b : 200
+b / a : 2
+b % a : 0
+a 不等于 b
+</code></pre><p>注意：条件表达式必须在[]之间，且必须有空格，如[\$a==\$b]是错的！</p>
+<pre><code>*乘号需要在expr表达式内用\转义
+
+Mac电脑的shell的expr表达式：$((表达式))所以它的乘号*不用转义
+</code></pre><h3 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h3><p>布尔类型，关系运算符仅支持数字，除非字符串的值也是数字。示例，若a = 10 ,b = 20:<br>运算符     说明<br>-eq     equal<br>-ne     not equal<br>-gt     great than<br>-lt     less than<br>-ge     great equal<br>-le     less equal</p>
+<h3 id="布尔运算符"><a href="#布尔运算符" class="headerlink" title="布尔运算符"></a>布尔运算符</h3><p>运算符     说明<br>!   非运算，表达式为true，则返回false。<br>-o  或运算，一个表达式为true，则返回true。<br>-a  与运算，两个都true，才返回true。</p>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><p>运算符     说明<br>&amp;&amp;  逻辑and<br>\   \       逻辑 or</p>
+<h3 id="字符串运算符"><a href="#字符串运算符" class="headerlink" title="字符串运算符"></a>字符串运算符</h3><p>运算符     说明<br>=   检测两字符串是否相等<br>!=  检测两字符串是否不等<br>-z  zero检测字符串长度是否为0，0则true<br>-n  not zero检测字符串长度是否非0。<br>str     检测字符串是否为空，不空则true。</p>
+<h3 id="文件测试运算符"><a href="#文件测试运算符" class="headerlink" title="文件测试运算符"></a>文件测试运算符</h3><p>用于检测类unix 文件的各种属性<br>操作符     说明<br>-b file     是否是块设备文件，是则true<br>-c file     是否是字符设备文件，是则true<br>-d file     是否是目录，是则true<br>-f file     是否是普通文件(既非目录，亦非设备文件)，若是则true<br>-g file     是否设置了SGID位，是则true<br>-k file     是否设置粘着位，是则true<br>-p file     是否有名管道，是则true<br>-u file     是否设置SUID，是则true<br>-r file     是否可读，是则true<br>-w file     是否可写，是则true<br>-x file     是否可执行，是则true<br>-s file     是否为空或大小是否大于0，非空则true<br>-e file     是否存在，是则true</p>
+<p>==注意shell脚本的表达式都要在[]内哦==</p>

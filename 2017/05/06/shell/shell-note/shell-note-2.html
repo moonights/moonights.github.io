@@ -1,0 +1,114 @@
+<hr>
+<p>title: Shell-学习笔记系列：（二）Shell变量<br>date: 2017-05-12 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="Shell变量"><a href="#Shell变量" class="headerlink" title="Shell变量"></a>Shell变量</h2><p>变量命名语法，不需要$符号，php需要。命名要求：</p>
+<pre><code>首字母必须字母a-z或A-Z
+不能空格，可用_
+不能标点
+不能使用bash关键字
+</code></pre><pre><code class="bash"><span class="comment">#注意，不同于其他编程语言，等号之间不要有空格。</span>
+your_variable=<span class="string">"your,name"</span>
+</code></pre>
+<pre><code class="bash"><span class="comment"># 使用语句给变量赋值，如下循环显示出/etc目录下的文件名</span>
+<span class="keyword">for</span> file <span class="keyword">in</span> <span class="string">'ls /etc'</span>
+</code></pre>
+<h3 id="1、使用变量"><a href="#1、使用变量" class="headerlink" title="1、使用变量"></a>1、使用变量</h3><p>使用已定义变量，只需在变量前加$符号即可：</p>
+<pre><code class="bash">your_variable=<span class="string">'yourname'</span>
+<span class="built_in">echo</span> <span class="variable">$your_variable</span>
+<span class="built_in">echo</span> $(your_variable)
+</code></pre>
+<p>变量名可以加{}来标识变量名的范围，如：</p>
+<pre><code class="bash"><span class="keyword">for</span> skill <span class="keyword">in</span> Ada Coffe Action Java; <span class="keyword">do</span>
+    <span class="built_in">echo</span> <span class="string">"I am good at <span class="variable">${skill}</span>Script"</span>
+<span class="keyword">done</span>
+</code></pre>
+<p>如果不加{}，skill就可能被认为skillScript而导致变量找不到</p>
+<p>已定义的变量可重新定义：</p>
+<pre><code class="bash">your_name=<span class="string">"tom"</span>
+<span class="built_in">echo</span> <span class="variable">$your_name</span>
+your_name=<span class="string">"john"</span>
+<span class="built_in">echo</span> <span class="variable">$your_name</span>
+</code></pre>
+<h3 id="2、只读变量"><a href="#2、只读变量" class="headerlink" title="2、只读变量"></a>2、只读变量</h3><p>使用readonly命令将变量只读，则不可再改变，否则报错。</p>
+<pre><code class="bash"><span class="meta">#!/bin/bash</span>
+myUrl=<span class="string">"http://www.w3cschool.cc"</span>
+<span class="built_in">readonly</span> myUrl
+myUrl=<span class="string">"new url"</span> <span class="comment">#此处就会报错，因为变量只读了。</span>
+</code></pre>
+<h3 id="3、删除变量"><a href="#3、删除变量" class="headerlink" title="3、删除变量"></a>3、删除变量</h3><p>使用unset命令删除变量：</p>
+<pre><code class="bash"><span class="built_in">unset</span> variable_name
+</code></pre>
+<p>==删除变量后不能再用，而unset不能删除只读变量==</p>
+<pre><code class="bash"><span class="meta">#!/bin/sh</span>
+myUrl=<span class="string">"http://www.google.com"</span>
+<span class="built_in">unset</span> myUrl
+<span class="built_in">echo</span> <span class="variable">$myUrl</span> <span class="comment">#此时输出就没接过了，因为变量被删除了。</span>
+</code></pre>
+<h3 id="4、变量类型"><a href="#4、变量类型" class="headerlink" title="4、变量类型"></a>4、变量类型</h3><p>运行shell时，会同时存在三种变量：</p>
+<pre><code>局部变量：脚本中定义的变量，仅作用于本shell脚本内。
+环境变量：所有程序，包括shell启动程序都能访问的环境变量。
+shell变量：shell程序的特殊变量。
+</code></pre><h3 id="5、shell字符串"><a href="#5、shell字符串" class="headerlink" title="5、shell字符串"></a>5、shell字符串</h3><p>shell常用number和string，其中string可以单引号、双引号或者不用引号。但是略有区别：</p>
+<p>单引号</p>
+<pre><code class="bash">str=<span class="string">'string test'</span>
+</code></pre>
+<p>单引号’’之间的字符原样输出，里面的变量也会失效。其内部不能再有单引号，哪怕转义符号都失效。</p>
+<p>双引号</p>
+<pre><code class="bash">your_name=<span class="string">'your name'</span>
+str=<span class="string">"Hello ,world ,\"<span class="variable">$your_name</span>\"! \n"</span>
+</code></pre>
+<p>双引号里面可以有变量，可以有转义符号。</p>
+<p>字符串拼接</p>
+<pre><code class="bash">n1=<span class="string">"abc"</span>
+<span class="built_in">test</span>=<span class="string">"hello, "</span><span class="variable">$n1</span><span class="string">" !"</span>
+test1=<span class="string">"hello, <span class="variable">${n1}</span> !"</span>
+<span class="built_in">echo</span> <span class="variable">$test</span> <span class="variable">$test1</span>
+</code></pre>
+<p>获取字符串长度<br>使用#标识变量长度</p>
+<pre><code class="bash">str=<span class="string">"abcdef"</span>
+<span class="comment">#输出字符串长度</span>
+<span class="built_in">echo</span> <span class="variable">${#str}</span>
+</code></pre>
+<p>获取子字符串</p>
+<pre><code>str=&quot;abcdef&quot;
+#下标从左至右，0开始，
+echo ${str:1:4}
+</code></pre><p>查找子字符串<br>使用`符号</p>
+<pre><code class="bash">str=<span class="string">"hello world nihaome"</span>
+<span class="comment">#查找字符i或s的位置,反引号</span>
+<span class="built_in">echo</span> `expr index <span class="string">"<span class="variable">$str</span>"</span> is`
+</code></pre>
+<h3 id="6、Shell数组"><a href="#6、Shell数组" class="headerlink" title="6、Shell数组"></a>6、Shell数组</h3><p>bash仅支持一维数组，可利用下标或表达式操作元素。</p>
+<p>定义数组</p>
+<p>shell中使用()表示数组，元素用空格来分割。</p>
+<pre><code class="bash">array=(1 2 3 4 5 6 7)
+<span class="comment">#或者</span>
+array=(
+a
+b
+c
+)
+<span class="comment">#也可以单独定义,下标可以不连续，也无范围限制。</span>
+array[0]=1
+array[1]=2
+array[3]=7
+</code></pre>
+<p>读取数组</p>
+<pre><code class="bash">variable=<span class="variable">${array[index]}</span>
+<span class="comment"># @符号代替index表示获取所有元素</span>
+<span class="built_in">echo</span> <span class="variable">${variable[@]}</span>
+</code></pre>
+<p>获取数组长度,类似字符串的获取</p>
+<pre><code class="bash"><span class="comment">#获取元素个数</span>
+length=<span class="variable">${#array_name[@]}</span>
+<span class="comment">#或者*通配符</span>
+length=<span class="variable">${#array_name[*]}</span>
+<span class="comment">#获取数组单个元素的长度</span>
+length_n=<span class="variable">${#array_name[n]}</span>
+</code></pre>
+<h3 id="7、Shell注释"><a href="#7、Shell注释" class="headerlink" title="7、Shell注释"></a>7、Shell注释</h3><p>使用#至于行首，表示该行注释，shell无多行注释，只能每行都#</p>
+<pre><code class="bash"><span class="comment">#-----------------------</span>
+<span class="comment">#我是个多行注释</span>
+<span class="comment">#但是只能这么写</span>
+<span class="comment">#-----------------------</span>
+</code></pre>
+<p>要是多行代码需要注释，可以将定义为函数，加{}包裹起来，该函数不被调用，则类似于注释掉。</p>

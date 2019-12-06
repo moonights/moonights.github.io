@@ -1,0 +1,14 @@
+<hr>
+<p>title: Shell-学习笔记系列：（四）Shell数组<br>date: 2017-05-21 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="Shell数组"><a href="#Shell数组" class="headerlink" title="Shell数组"></a>Shell数组</h2><p>Bash shell仅支持一维数组，不限定大小，初始化时候不需要指定大小。下标0开始，()包裹，空格分割元素。</p>
+<pre><code>array=(a b c d)
+</code></pre><p>读取数组</p>
+<p>格式${array[index]}</p>
+<pre><code>#!/bin/bash
+my_array=(a b &quot;c&quot; d)
+echo &quot;first: ${my_array[0]}&quot;
+#然后执行文件，获得输出结果
+#可用@或*来代替index获取所有元素
+</code></pre><p>数组长度<br>类似字符串的长度获取</p>
+<pre><code>${#array[index]}
+</code></pre>

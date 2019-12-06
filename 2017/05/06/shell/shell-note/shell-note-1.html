@@ -1,0 +1,21 @@
+<hr>
+<p>title: Shell-学习笔记系列：（一）Shell入门<br>date: 2017-05-08 17:13:15<br>tags: [Shell]</p>
+<h2 id="categories-Shell"><a href="#categories-Shell" class="headerlink" title="categories: Shell"></a>categories: Shell</h2><h2 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h2><p>Shell 是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。</p>
+<p>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。</p>
+<p>Ken Thompson的sh是第一种Unix Shell，Windows Explorer是一个典型的图形界面Shell。</p>
+<h2 id="Shell教程入门"><a href="#Shell教程入门" class="headerlink" title="Shell教程入门"></a>Shell教程入门</h2><h3 id="1、shell脚本"><a href="#1、shell脚本" class="headerlink" title="1、shell脚本"></a>1、shell脚本</h3><pre><code>shell脚本shell script，是一种为shell而编写的脚本程序。然而通常所说的shell却是指shell脚本，而非shell本身。
+</code></pre><p>Linux系统shell种类众多，常用的有sh和bash。</p>
+<h3 id="2、shell脚本实践"><a href="#2、shell脚本实践" class="headerlink" title="2、shell脚本实践"></a>2、shell脚本实践</h3><p>shell脚本用#!/bin/bash或#!/bin/sh之类的方式，制定运行脚本的shell,#!是识别符号。</p>
+<pre><code class="bash"><span class="meta">#!/bin/sh</span>
+<span class="built_in">echo</span> <span class="string">"Hello World"</span>
+</code></pre>
+<p>运行shell脚本的两种方法：</p>
+<p>作为可执行程序<br>将shell文本保存为.sh格式文件，赋予执行权限</p>
+<pre><code class="bash">chmod + x ./test.sh <span class="comment"># 赋予可执行权限</span>
+./test.sh <span class="comment">#执行脚本，注意此处需要指明当前目录下的test.sh哦，不然会去path路径找的，呵呵。</span>
+</code></pre>
+<p>作为解释其参数<br>直接解释运行,如此就不用写#!/bin/sh之类的引用注释了。</p>
+<pre><code class="bash">/bin/sh test.sh
+<span class="comment"># 类似java、php、python脚本</span>
+/bin/php test.php
+</code></pre>
