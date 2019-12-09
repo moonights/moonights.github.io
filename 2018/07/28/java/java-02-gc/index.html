@@ -1,0 +1,1030 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="xxx" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观." />
+
+
+
+  <meta name="keywords" content="java,jvm," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="moonights's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="判断对象是否可回收有几种方式？引用计数算法 优点：实现简单，判定高效；缺点：很难解决对象之间相互循环引用的问题； 可达性分析算法 通过一系列”GC Roots”对象作为起始点，开始向下搜索，当一个对象到GC Roots没有任何引用链相连时（从GC Roots到这个对象不可达），则证明该对象是不可用的；优点：更加精确和严谨，可以分析出循环数据结构相互引用的情况；缺点：实现比较复杂；需要分析大量数据，">
+<meta name="keywords" content="java,jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java技术集锦（2）JVM垃圾回收">
+<meta property="og:url" content="http://blog.moonights.com/2018/07/28/java/java-02-gc/index.html">
+<meta property="og:site_name" content="moonights&#39;s blog">
+<meta property="og:description" content="判断对象是否可回收有几种方式？引用计数算法 优点：实现简单，判定高效；缺点：很难解决对象之间相互循环引用的问题； 可达性分析算法 通过一系列”GC Roots”对象作为起始点，开始向下搜索，当一个对象到GC Roots没有任何引用链相连时（从GC Roots到这个对象不可达），则证明该对象是不可用的；优点：更加精确和严谨，可以分析出循环数据结构相互引用的情况；缺点：实现比较复杂；需要分析大量数据，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.moonights.com/2018/07/28/java/java-02-gc/gc-cms.png">
+<meta property="og:updated_time" content="2019-12-09T07:49:28.459Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java技术集锦（2）JVM垃圾回收">
+<meta name="twitter:description" content="判断对象是否可回收有几种方式？引用计数算法 优点：实现简单，判定高效；缺点：很难解决对象之间相互循环引用的问题； 可达性分析算法 通过一系列”GC Roots”对象作为起始点，开始向下搜索，当一个对象到GC Roots没有任何引用链相连时（从GC Roots到这个对象不可达），则证明该对象是不可用的；优点：更加精确和严谨，可以分析出循环数据结构相互引用的情况；缺点：实现比较复杂；需要分析大量数据，">
+<meta name="twitter:image" content="http://blog.moonights.com/2018/07/28/java/java-02-gc/gc-cms.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> java技术集锦（2）JVM垃圾回收 | moonights's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'xxx', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?xxx";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">1900</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'xxx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              java技术集锦（2）JVM垃圾回收
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-07-28T19:34:15+08:00" content="2018-07-28">
+            2018-07-28
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/java/" itemprop="url" rel="index">
+                  <span itemprop="name">java</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/07/28/java/java-02-gc/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/28/java/java-02-gc/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="判断对象是否可回收有几种方式？"><a href="#判断对象是否可回收有几种方式？" class="headerlink" title="判断对象是否可回收有几种方式？"></a>判断对象是否可回收有几种方式？</h2><p>引用计数算法</p>
+<p>优点：实现简单，判定高效；<br>缺点：很难解决对象之间相互循环引用的问题；</p>
+<p>可达性分析算法</p>
+<p>通过一系列”GC Roots”对象作为起始点，开始向下搜索，当一个对象到GC Roots没有任何引用链相连时（从GC Roots到这个对象不可达），则证明该对象是不可用的；<br>优点：更加精确和严谨，可以分析出循环数据结构相互引用的情况；<br>缺点：实现比较复杂；需要分析大量数据，消耗大量时间；分析过程需要GC停顿（引用关系不能发生变化），即停顿所有Java执行线程（称为”Stop The World”，是垃圾回收重点关注的问题）；</p>
+<h2 id="“GC-Roots”对象都包含哪些"><a href="#“GC-Roots”对象都包含哪些" class="headerlink" title="“GC Roots”对象都包含哪些"></a>“GC Roots”对象都包含哪些</h2><p>虚拟机栈 （栈帧中本地变量表）中引用的对象；<br>方法区中 类静态属性引用的对象 ；<br>方法区中 常量引用的对象；<br>本地方法栈 JNI（Native方法）中引用的对象；</p>
+<h2 id="Java四种引用类型分别是什么？及存活时间"><a href="#Java四种引用类型分别是什么？及存活时间" class="headerlink" title="Java四种引用类型分别是什么？及存活时间"></a>Java四种引用类型分别是什么？及存活时间</h2><p>强引用：程序代码普遍存在的，类似”Object obj=new Object()”；只要强引用还存在，GC永远不会回收被引用的对象；<br>软引用：描述还有用但并非必需的对象；直到内存空间不够时（抛出OutOfMemoryError之前），才会被垃圾回收；最常用于实现对内存敏感的缓存；SoftReference类实现；<br>弱引用：用来描述非必需对象；只能生存到下一次垃圾回收之前，无论内存是否足够；WeakReference类实现；<br>虚引用：完全不会对其生存时间构成影响；唯一目的就是能在这个对象被回收时收到一个系统通知；PhantomRenference类实现；</p>
+<h2 id="Java四种引用使用场景"><a href="#Java四种引用使用场景" class="headerlink" title="Java四种引用使用场景"></a>Java四种引用使用场景</h2><p>强引用-FinalReference</p>
+<p>地球人都知道，但是我讲不出来；</p>
+<p>软引用-SoftReference</p>
+<p>创建缓存的时候，创建的对象放进缓存中，当内存不足时，JVM就会回收早先创建的对象。PS：图片编辑器，视频编辑器之类的软件可以使用这种思路。<br>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p>弱引用-WeakReference</p>
+<p>Java源码中的java.util.WeakHashMap中的key就是使用弱引用，一旦不需要某个引用，JVM会自动处理它，这样就不需要做其它操作。<br>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p>虚引用-PhantomReference</p>
+<p>主要用来跟踪对象被垃圾回收器回收的活动。虚引用的回收机制跟弱引用差不多，但是它被回收之前，会被放入ReferenceQueue中。注意哦，其它引用是被JVM回收后才被传入ReferenceQueue中的。由于这个机制，所以虚引用大多被用于引用销毁前的处理工作。<br>程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。<br>对象销毁前的一些操作，比如说资源释放等。Object.finalize()虽然也可以做这类动作，但是这个方式即不安全又低效。</p>
+<h2 id="JVM如何进行对象标记"><a href="#JVM如何进行对象标记" class="headerlink" title="JVM如何进行对象标记"></a>JVM如何进行对象标记</h2><p>第一次标记：在可达性分析后发现到GC Roots没有任何引用链相连时，被第一次标记；并且进行一次筛选：此对象是否必要执行finalize()方法；没有必要执行的情况，则标记对象已死；有必要执行的情况，则对象被放入F-Queue队列中；<br>第二次标记：GC将对F-Queue队列中的对象进行第二次小规模标记；finalize()方法是对象逃脱死亡的最后一次机会；一个对象的finalize()方法只会被系统自动调用一次，经过finalize()方法逃脱死亡的对象，第二次不会再调用；</p>
+<h2 id="为何不建议使用finalize-方法"><a href="#为何不建议使用finalize-方法" class="headerlink" title="为何不建议使用finalize()方法"></a>为何不建议使用finalize()方法</h2><p>因为其执行的时间不确定，甚至是否被执行也不确定（Java程序的不正常退出），而且运行代价高昂，无法保证各个对象的调用顺序（甚至有不同线程中调用）；如果需要”释放资源”，可以定义显式的终止方法，并在”try-catch-finally”的finally{}块中保证及时调用；<br>如果有关键资源，必须显式的终止方法；一般情况下，应尽量避免使用它，甚至可以忘掉它；</p>
+<h2 id="什么是安全点，为什么需要"><a href="#什么是安全点，为什么需要" class="headerlink" title="什么是安全点，为什么需要"></a>什么是安全点，为什么需要</h2><p>运行中，非常多的指令都会导致引用关系变化；如果为这些指令都生成对应的OopMap，需要的空间成本太高；<br>只在特定的位置记录OopMap引用关系，这些位置称为安全点（Safepoint）；</p>
+<h2 id="如何选定安全点"><a href="#如何选定安全点" class="headerlink" title="如何选定安全点"></a>如何选定安全点</h2><p>不能太少，否则GC等待时间太长；也不能太多，否则GC过于频繁，增大运行时负荷；<br>所以，基本上是以程序”是否具有让程序长时间执行的特征”为标准选定，如：方法调用、循环跳转、循环的末尾、异常跳转等；<br>只有具有这些功能的指令才会产生Safepoint；</p>
+<h2 id="如何使Java线程在安全点上停顿"><a href="#如何使Java线程在安全点上停顿" class="headerlink" title="如何使Java线程在安全点上停顿"></a>如何使Java线程在安全点上停顿</h2><p>抢先式中断（Preemptive Suspension）：在GC发生时，首先中断所有线程；如果发现不在Safepoint上的线程，就恢复让其运行到Safepoint上；<br>主动式中断（Voluntary Suspension）：在GC发生时，不直接操作线程中断，而是仅简单设置一个标志；让各线程执行时主动去轮询这个标志，发现中断标志为真时就自己中断挂起；<br>而轮询标志的地方和Safepoint是重合的；</p>
+<h2 id="什么是安全区域，为什么需要安全区域"><a href="#什么是安全区域，为什么需要安全区域" class="headerlink" title="什么是安全区域，为什么需要安全区域"></a>什么是安全区域，为什么需要安全区域</h2><p>线程不执行时没有CPU时间（Sleep或Blocked状态），无法运行到Safepoint上再中断挂起；<br>安全区域：指一段代码片段中，引用关系不会发生变化；在这个区域中的任意地方开始GC都是安全的；</p>
+<h2 id="如何使用安全区域解决问题"><a href="#如何使用安全区域解决问题" class="headerlink" title="如何使用安全区域解决问题"></a>如何使用安全区域解决问题</h2><p>线程执行进入Safe Region，首先标识自己已经进入Safe Region；<br>线程被唤醒离开Safe Region时，其需要检查系统是否已经完成根节点枚举（或整个GC）；<br>如果已经完成，就继续执行；否则必须等待，直到收到可以安全离开Safe Region的信号通知，这样就不会影响标记结果；</p>
+<h2 id="GC算法：标记-清楚优缺点"><a href="#GC算法：标记-清楚优缺点" class="headerlink" title="GC算法：标记-清楚优缺点"></a>GC算法：标记-清楚优缺点</h2><p>优点：基于最基础的可达性分析算法，它是最基础的收集算法；而后续的收集算法都是基于这种思路并对其不足进行改进得到的；<br>缺点：效率问题，标记和清除两个过程的效率都不高；空间问题，标记清除后会产生大量不连续的内存碎片；这会导致分配大内存对象时，无法找到足够的连续内存；从而需要提前触发另一次垃圾收集动作；</p>
+<h2 id="GC算法：复制算法优缺点"><a href="#GC算法：复制算法优缺点" class="headerlink" title="GC算法：复制算法优缺点"></a>GC算法：复制算法优缺点</h2><p>优点：使得每次都是只对整个半区进行内存回收；内存分配时也不用考虑内存碎片等问题；实现简单，运行高效；<br>缺点：空间浪费；效率随对象存活率升高而变低；</p>
+<h2 id="GC算法：HotSpot虚拟机复制算法"><a href="#GC算法：HotSpot虚拟机复制算法" class="headerlink" title="GC算法：HotSpot虚拟机复制算法"></a>GC算法：HotSpot虚拟机复制算法</h2><p>将新生代内存分为一块较大的Eden空间和两块较小的Survivor空间；<br>每次使用Eden和其中一块Survivor；<br>当回收时，将Eden和使用中的Survivor中还存活的对象一次性复制到另外一块Survivor；<br>而后清理掉Eden和使用过的Survivor空间；<br>后面就使用Eden和复制到的那一块Survivor空间，重复步骤3；</p>
+<p>默认Eden：Survivor=8:1，即每次可以使用90%的空间，只有一块Survivor的空间被浪费；</p>
+<h2 id="什么是分配担保"><a href="#什么是分配担保" class="headerlink" title="什么是分配担保"></a>什么是分配担保</h2><p>如果另一块Survivor空间没有足够空间存放上一次新生代收集下来的存活对象时，这些对象将直接通过分配担保机制（Handle Promotion）进入老年代；</p>
+<h2 id="GC算法：标记-整理优缺点"><a href="#GC算法：标记-整理优缺点" class="headerlink" title="GC算法：标记-整理优缺点"></a>GC算法：标记-整理优缺点</h2><p>优点：不会产生内存碎片；<br>缺点：增加了对存活对象需要整理的过程，效率更低；</p>
+<h2 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h2><p>“分代收集”（Generational Collection）算法结合不同的收集算法处理不同区域。<br>新生代：每次垃圾收集都有大批对象死去，只有少量存活；所以可采用复制算法；<br>老年代：对象存活率高，没有额外的空间可以分配担保；使用”标记-清理”或”标记-整理”算法；<br>优点：根据各个年代的特点采用最适当的收集算法；<br>缺点：仍然不能控制每次垃圾收集的时间；</p>
+<h2 id="G1垃圾收集算法"><a href="#G1垃圾收集算法" class="headerlink" title="G1垃圾收集算法"></a>G1垃圾收集算法</h2><p>19 JVM有哪些收集器？分别用于哪些代？<br>JDK7/8后，HotSpot虚拟机所有收集器及组合（连线），如下图：</p>
+<p>新生代收集器：Serial、ParNew、Parallel Scavenge；<br>老年代收集器：Serial Old、Parallel Old、CMS；<br>整堆收集器：G1；</p>
+<h2 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h2><p>新生代、复制算法、单线程收集；<br>缺点：进行垃圾收集时，必须暂停所有工作线程，直到完成；即会”Stop The World”；</p>
+<p>Serial/Serial Old组合收集器运行示意图如下：</p>
+<h2 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h2><p>新生代、复制算法、多线程收集；<br>缺点：进行垃圾收集时，必须暂停所有工作线程，直到完成；即会”Stop The World”；</p>
+<p>ParNew/Serial Old组合收集器运行示意图如下：</p>
+<h2 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h2><p>新生代、复制算法、多线程收集；<br>CMS等收集器的关注点是尽可能地缩短垃圾收集时用户线程的停顿时间；而Parallel Scavenge收集器的目标则是达一个可控制的吞吐量（Throughput）；</p>
+<h2 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h2><p>老年代、”标记-整理”算法（还有压缩，Mark-Sweep-Compact）、单线程收集；</p>
+<h2 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h2><p>老年代、”标记-整理”算法（还有压缩，Mark-Sweep-Compact）、多线程收集；</p>
+<h2 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h2><p>老年代、”标记-清除”算法(不进行压缩操作，产生内存碎片)、并发收集、低停顿</p>
+<p>CMS收集器运行示意图如下：</p>
+<p><img src="/2018/07/28/java/java-02-gc/gc-cms.png" alt="gc-cms"></p>
+<p>整个过程中耗时最长的并发标记和并发清除都可以与用户线程一起工作；所以总体上说，CMS收集器的内存回收过程与用户线程一起并发执行；</p>
+<p>CMS收集器3个明显的缺点：</p>
+<p>对CPU资源非常敏感；<br>无法处理浮动垃圾，可能出现”Concurrent Mode Failure”失败；<br>产生大量内存碎片；</p>
+<h2 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h2><h2 id="JVM如何进行对象内存分配"><a href="#JVM如何进行对象内存分配" class="headerlink" title="JVM如何进行对象内存分配"></a>JVM如何进行对象内存分配</h2><p>在堆上分配（JIT编译优化后可能在栈上分配），主要在新生代的Eden区中分配；<br>如果启用了本地线程分配缓冲，将线程优先在TLAB上分配；<br>少数情况下，可能直接分配在老年代中；<br>分配的细节取决于当前使用哪种垃圾收集器组合，以及JVM中内存相关参数设置；</p>
+<h2 id="哪些情况下对象内存分配会直接进入老年代"><a href="#哪些情况下对象内存分配会直接进入老年代" class="headerlink" title="哪些情况下对象内存分配会直接进入老年代"></a>哪些情况下对象内存分配会直接进入老年代</h2><p>当Eden区没有足够空间进行分配时，JVM将发起一次Minor GC（新生代GC）；Minor GC时，如果发现存活的对象无法全部放入Survivor空间，只好通过分配担保机制提前转移到老年代。<br>需要大量连续内存空间的Java大对象会直接进入老年代，容易提前触发老年代GC；<br>经过多次Minor GC，如果年龄达到一定程度，就晋升到老年代；<br>动态对象年龄判定：如果在Survivor空间中相同年龄的所有对象大小总和大于Survivor空间的一半，大于或等于该年龄的对象就可以直接进入老年代；</p>
+<h2 id="方法区中可回收哪些对象"><a href="#方法区中可回收哪些对象" class="headerlink" title="方法区中可回收哪些对象"></a>方法区中可回收哪些对象</h2><p>废弃常量：与回收Java堆中对象非常类似；<br>无用的类：（1）该类所有实例都已经被回收（即Java椎中不存在该类的任何实例）；（2）加载该类的ClassLoader已经被回收，也即通过引导程序加载器加载的类不能被回收；（3）该类对应的java.lang.Class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法；</p>
+<h2 id="JDK-HotSpot虚拟机方法区调整"><a href="#JDK-HotSpot虚拟机方法区调整" class="headerlink" title="JDK HotSpot虚拟机方法区调整"></a>JDK HotSpot虚拟机方法区调整</h2><p>在JDK7中，使用永久代（Permanent Generation）实现方法区，这样就可以不用专门实现方法区的内存管理，但这容易引起内存溢出问题；<br>在JDK8中，永久代已被删除，类元数据（Class Metadata）存储空间直接在本地内存中分配；</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/jvm/" rel="tag">#jvm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/java/java-03-proxy/" rel="prev">java技术集锦（3）Java动态代理</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/16/java/java-01-jvm/" rel="next">java技术集锦（1）JVM内存模型</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+              
+
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                         
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            <!--
+            
+            -->
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="moonights" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">moonights</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/moonights" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moonights" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/moonights" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/moonights" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://moonights.github.io/about/" target="_blank">About</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断对象是否可回收有几种方式？"><span class="nav-number">1.</span> <span class="nav-text">判断对象是否可回收有几种方式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“GC-Roots”对象都包含哪些"><span class="nav-number">2.</span> <span class="nav-text">“GC Roots”对象都包含哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java四种引用类型分别是什么？及存活时间"><span class="nav-number">3.</span> <span class="nav-text">Java四种引用类型分别是什么？及存活时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java四种引用使用场景"><span class="nav-number">4.</span> <span class="nav-text">Java四种引用使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM如何进行对象标记"><span class="nav-number">5.</span> <span class="nav-text">JVM如何进行对象标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为何不建议使用finalize-方法"><span class="nav-number">6.</span> <span class="nav-text">为何不建议使用finalize()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是安全点，为什么需要"><span class="nav-number">7.</span> <span class="nav-text">什么是安全点，为什么需要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何选定安全点"><span class="nav-number">8.</span> <span class="nav-text">如何选定安全点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使Java线程在安全点上停顿"><span class="nav-number">9.</span> <span class="nav-text">如何使Java线程在安全点上停顿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是安全区域，为什么需要安全区域"><span class="nav-number">10.</span> <span class="nav-text">什么是安全区域，为什么需要安全区域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用安全区域解决问题"><span class="nav-number">11.</span> <span class="nav-text">如何使用安全区域解决问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法：标记-清楚优缺点"><span class="nav-number">12.</span> <span class="nav-text">GC算法：标记-清楚优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法：复制算法优缺点"><span class="nav-number">13.</span> <span class="nav-text">GC算法：复制算法优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法：HotSpot虚拟机复制算法"><span class="nav-number">14.</span> <span class="nav-text">GC算法：HotSpot虚拟机复制算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是分配担保"><span class="nav-number">15.</span> <span class="nav-text">什么是分配担保</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC算法：标记-整理优缺点"><span class="nav-number">16.</span> <span class="nav-text">GC算法：标记-整理优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分代收集算法"><span class="nav-number">17.</span> <span class="nav-text">分代收集算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G1垃圾收集算法"><span class="nav-number">18.</span> <span class="nav-text">G1垃圾收集算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serial收集器"><span class="nav-number">19.</span> <span class="nav-text">Serial收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ParNew收集器"><span class="nav-number">20.</span> <span class="nav-text">ParNew收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parallel-Scavenge收集器"><span class="nav-number">21.</span> <span class="nav-text">Parallel Scavenge收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serial-Old收集器"><span class="nav-number">22.</span> <span class="nav-text">Serial Old收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parallel-Old收集器"><span class="nav-number">23.</span> <span class="nav-text">Parallel Old收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS收集器"><span class="nav-number">24.</span> <span class="nav-text">CMS收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G1收集器"><span class="nav-number">25.</span> <span class="nav-text">G1收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM如何进行对象内存分配"><span class="nav-number">26.</span> <span class="nav-text">JVM如何进行对象内存分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些情况下对象内存分配会直接进入老年代"><span class="nav-number">27.</span> <span class="nav-text">哪些情况下对象内存分配会直接进入老年代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法区中可回收哪些对象"><span class="nav-number">28.</span> <span class="nav-text">方法区中可回收哪些对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK-HotSpot虚拟机方法区调整"><span class="nav-number">29.</span> <span class="nav-text">JDK HotSpot虚拟机方法区调整</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2019
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moonights
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  <script type="text/javascript">
+    var disqus_shortname = 'moonights';
+    var disqus_identifier = '2018/07/28/java/java-02-gc/';
+    var disqus_title = 'java技术集锦（2）JVM垃圾回收';
+    var disqus_url = 'http://blog.moonights.com/2018/07/28/java/java-02-gc/';
+
+    function run_disqus_script(disqus_script){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    run_disqus_script('count.js');
+    
+      run_disqus_script('embed.js');
+    
+  </script>
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

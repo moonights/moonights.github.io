@@ -1,0 +1,1253 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="xxx" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观." />
+
+
+
+  <meta name="keywords" content="nginx,反向代理," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="moonights's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011">
+<meta name="keywords" content="nginx,反向代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx-学习笔记">
+<meta property="og:url" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/index.html">
+<meta property="og:site_name" content="moonights&#39;s blog">
+<meta property="og:description" content="前言Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/tomcat-1.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/tomcat-2.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/tomcat-3.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/8081.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/8082.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/8083.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/localhost-1.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/localhost-2.png">
+<meta property="og:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/localhost-3.png">
+<meta property="og:updated_time" content="2019-12-09T03:08:34.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx-学习笔记">
+<meta name="twitter:description" content="前言Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011">
+<meta name="twitter:image" content="http://blog.moonights.com/2018/04/03/linux/nginx-note/tomcat-1.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> nginx-学习笔记 | moonights's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'xxx', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?xxx";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">1900</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'xxx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              nginx-学习笔记
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-04-03T11:55:41+08:00" content="2018-04-03">
+            2018-04-03
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/nginx/" itemprop="url" rel="index">
+                  <span itemprop="name">nginx</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/04/03/linux/nginx-note/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/03/linux/nginx-note/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。<br>其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<br>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>Linux系统安装Nginx</strong><br>参考：<a href="http://www.runoob.com/linux/nginx…" target="_blank" rel="noopener">www.runoob.com/linux/nginx…</a><br><strong>Windows下Nginx安装与配置</strong><br>1.官方下载地址：nginx.org/en/download…<br>2.下载后，将nginx-1.xx.x.zip解压</p>
+<p>请注意，Nginx目录所在的路径中不要有中文字符，也不建议有空格。</p>
+<p>3.启动Nginx<br>两中方式：<br>1）双击nginx.exe启动<br>2）命令行输入：start nginx.exe</p>
+<p>nginx端口默认是80</p>
+<p>验证是否成功启动，在浏览器中输入127.0.0.1或者localhost出现如下界面证明启动成功</p>
+<p>也可以在cmd命令窗口输入命令 tasklist /fi “imagename eq nginx.exe” ，出现如下结果说明启动成功</p>
+<p>常用命令<br>检查80端口是否被占用的命令是： netstat -ano | findstr 0.0.0.0:80 或 netstat -ano | findstr “80”<br>快速停止nginx：nginx -s stop<br>完整有序的停止nginx：nginx -s quit<br>关闭全部nginx进程：taskkill /f /t /im nginx.exe<br>重新启动nginx：nginx -s reload<br>Nginx相关地址<br>源码：trac.nginx.org/nginx/brows…<br>官网：<a href="http://www.nginx.org/" target="_blank" rel="noopener">www.nginx.org/</a></p>
+<h2 id="Nginx常用功能"><a href="#Nginx常用功能" class="headerlink" title="Nginx常用功能"></a>Nginx常用功能</h2><h3 id="1-Http代理"><a href="#1-Http代理" class="headerlink" title="1.Http代理"></a>1.Http代理</h3><p>nginx代理分为正向代理或反向代理。<br>正向代理与反向代理的区别就是代理的对象不一样，正向代理代理的对象是客户端，反向代理代理的对象是服务端。</p>
+<blockquote>
+<p>正向代理<br>    server {<br>        location / {<br>            proxy_pass http://$http_host$request_uri;<br>        }<br>    }</p>
+</blockquote>
+<blockquote>
+<p>反向代理<br>    server {<br>        location ~ /test_index.html$ {<br>            proxy_pass <a href="http://192.168.1.101:8081" target="_blank" rel="noopener">http://192.168.1.101:8081</a>;<br>        }<br>    }</p>
+</blockquote>
+<p>注意：设置了代理，后端是获取不到头信息与用户真实ip的，这时需要nginx设置返回后端的头信息（proxy_set_header），通常配置如下：<br>    server {<br>        location / {<br>            proxy_pass <a href="http://192.168.1.101:8081" target="_blank" rel="noopener">http://192.168.1.101:8081</a>;<br>            proxy_redirect default;  </p>
+<pre><code>        proxy_set_header Host $host;  
+        proxy_set_header X-Real-IP $remote_addr;  
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  
+
+        proxy_connect_timeout 90;  
+        proxy_send_timeout 90;  
+        proxy_read_timeout 90;  
+
+        proxy_buffer_size 32k;  
+        proxy_buffering on;
+        proxy_buffers 4 128k;  
+        proxy_busy_buffers_size 256k;  
+        proxy_max_temp_file_size 256k; 
+    }
+}
+</code></pre><p>通常这些配置是可以公用的，所以vim<br>proxy_params一个文件，用一个文件写入这些配置，然后修改location：</p>
+<pre><code>server {
+    location / {
+        proxy_pass http://192.168.1.101:8081;
+        include proxy_params;
+    }
+}
+</code></pre><p>或者</p>
+<pre><code>upstream testserver {
+    server http://192.168.1.101:8081;
+}
+server {
+    location / {
+        proxy_pass http://testserver;
+        include proxy_params;
+    }
+}
+</code></pre><p>下面是我的一个关于代理配置的配置文件部分，仅供参考。</p>
+<pre><code>include       mime.types;   #文件扩展名与文件类型映射表
+default_type  application/octet-stream; #默认文件类型，默认为text/plain
+#access_log off; #取消服务日志    
+log_format myFormat &apos; $remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for&apos;; #自定义格式
+access_log log/access.log myFormat;  #combined为日志格式的默认值
+sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。
+sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。
+keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。
+proxy_connect_timeout 1;   #nginx服务器与被代理的服务器建立连接的超时时间，默认60秒
+proxy_read_timeout 1; #nginx服务器想被代理服务器组发出read请求后，等待响应的超时间，默认为60秒。
+proxy_send_timeout 1; #nginx服务器想被代理服务器组发出write请求后，等待响应的超时间，默认为60秒。
+proxy_http_version 1.0 ; #Nginx服务器提供代理服务的http协议版本1.0，1.1，默认设置为1.0版本。
+#proxy_method get;    #支持客户端的请求方法。post/get；
+proxy_ignore_client_abort on;  #客户端断网时，nginx服务器是否终端对被代理服务器的请求。默认为off。
+proxy_ignore_headers &quot;Expires&quot; &quot;Set-Cookie&quot;;  #Nginx服务器不处理设置的http相应投中的头域，这里空格隔开可以设置多个。
+proxy_intercept_errors on;    #如果被代理服务器返回的状态码为400或者大于400，设置的error_page配置起作用。默认为off。
+proxy_headers_hash_max_size 1024; #存放http报文头的哈希表容量上限，默认为512个字符。
+proxy_headers_hash_bucket_size 128; #nginx服务器申请存放http报文头的哈希表容量大小。默认为64个字符。
+proxy_next_upstream timeout;  #反向代理upstream中设置的服务器组，出现故障时，被代理服务器返回的状态值。error|timeout|invalid_header|http_500|http_502|http_503|http_504|http_404|off
+#proxy_ssl_session_reuse on; 默认为on，如果我们在错误日志中发现“SSL3_GET_FINSHED:digest check failed”的情况时，可以将该指令设置为off。
+</code></pre><h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2.负载均衡"></a>2.负载均衡</h3><p>Nginx提供的负载均衡策略有2种：内置策略和扩展策略。内置策略为轮询，加权轮询，Ip hash。扩展策略，就天马行空，只有你想不到的没有他做不到的啦，你可以参照所有的负载均衡算法，给他一一找出来做下实现。<br>上3个图，理解这三种负载均衡算法的实现</p>
+<p>Ip hash算法，对客户端请求的ip进行hash操作，然后根据hash结果将同一个客户端ip的请求分发给同一台服务器进行处理，可以解决session不共享的问题。</p>
+<h4 id="Nginx负载均衡详解"><a href="#Nginx负载均衡详解" class="headerlink" title="Nginx负载均衡详解"></a>Nginx负载均衡详解</h4><p>通过在Nginx服务器中配置proxy_pass和upstream server组可以实现最基本的负载均衡。Nginx收到客户端的请求后，将请求代理路由到upstream server中配置的各个服务中，默认会使用轮询的策略依次访问各个服务。</p>
+<p>upstream语法<br>upstream name {…}，而且只能配置在http中</p>
+<pre><code>upstream mysvr { 
+      server  http://192.168.0.12:8888;
+      server  http://192.168.0.22:8888;
+    }
+ server {
+        location  / {         
+           proxy_pass  mysvr;  #请求转向mysvr 定义的服务器列表         
+        }
+</code></pre><p>1.热备：如果你有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务。</p>
+<pre><code>upstream mysvr { 
+  server 127.0.0.1:8888; 
+  server 192.168.0.21:8888 backup;  #热备     
+}
+</code></pre><p>2.轮询：nginx默认就是轮询其权重都默认为1，服务器处理请求的顺序：ABABABABAB….</p>
+<pre><code>upstream mysvr { 
+  server 127.0.0.1:8888;
+  server 192.168.0.21:8888;       
+}
+</code></pre><p>3.加权轮询：跟据配置的权重的大小而分发给不同服务器不同数量的请求。如果不设置，则默认为1。下面服务器的请求顺序为：ABBABBABBABBABB….</p>
+<pre><code>upstream mysvr { 
+  server 127.0.0.1:8888 weight=1;
+  server 192.168.0.21:8888 weight=2;
+}
+</code></pre><p>4.ip_hash:nginx会让相同的客户端ip请求相同的服务器。</p>
+<pre><code>upstream mysvr { 
+      server 127.0.0.1:8888; 
+      server 192.168.0.21:8888;
+      ip_hash;
+    }
+</code></pre><p>5.最少连接,将请求分配到连接数最少的服务上。</p>
+<pre><code>upstream  dalaoyang-server {
+       least_conn;
+       server    localhost:8001 weight=1;
+       server    localhost:8002 weight=2;
+}
+</code></pre><p>6.fair,按后端服务器的响应时间来分配请求，响应时间短的优先分配。</p>
+<pre><code>upstream  dalaoyang-server {
+       server    localhost:8001 weight=1;
+       server    localhost:8002 weight=2;
+       fair;  
+}
+</code></pre><h3 id="3-web缓存"><a href="#3-web缓存" class="headerlink" title="3.web缓存"></a>3.web缓存</h3><p>Nginx可以对不同的文件做不同的缓存处理，配置灵活，并且支持FastCGI_Cache，主要用于对FastCGI的动态程序进行缓存。配合着第三方的ngx_cache_purge，对制定的URL缓存内容可以的进行增删管理。<br>参考：<br>Nginx配置文件结构<br>    nginx.conf文件是默认的 nginx 配置文件<br>    nginx 文件结构<br>    …              #全局块</p>
+<pre><code>events {         #events块
+   ...
+}
+
+http      #http块
+{
+    ...   #http全局块
+    server        #server块
+    { 
+        ...       #server全局块
+        location [PATTERN]   #location块
+        {
+            ...
+        }
+        location [PATTERN] 
+        {
+            ...
+        }
+    }
+    server
+    {
+      ...
+    }
+    ...     #http全局块
+}
+</code></pre><p>1.全局块：配置影响nginx全局的指令。一般有运行nginx服务器的用户组，nginx进程pid存放路径，日志存放路径，配置文件引入，允许生成worker process数等。<br>2.events块：配置影响nginx服务器或与用户的网络连接。有每个进程的最大连接数，选取哪种事件驱动模型处理连接请求，是否允许同时接受多个网路连接，开启多个网络连接序列化等。<br>3.http块：可以嵌套多个server，配置代理，缓存，日志定义等绝大多数功能和第三方模块的配置。如文件引入，mime-type定义，日志自定义，是否使用sendfile传输文件，连接超时时间，单连接请求数等。<br>4.server块：配置虚拟主机的相关参数，一个http中可以有多个server。<br>5.location块：配置请求的路由，以及各种页面的处理情况。</p>
+<p>下面给大家上一个配置文件，作为理解。</p>
+<pre><code>########### 每个指令必须有分号结束。#################
+#user administrator administrators;  #配置用户或者组，默认为nobody nobody。
+#worker_processes 2;  #允许生成的进程数，默认为1
+#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址
+error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg
+events {
+    accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on
+    multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off
+    #use epoll;      #事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport
+    worker_connections  1024;    #最大连接数，默认为512
+}
+http {
+    include       mime.types;   #文件扩展名与文件类型映射表
+    default_type  application/octet-stream; #默认文件类型，默认为text/plain
+    #access_log off; #取消服务日志    
+    log_format myFormat &apos;$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for&apos;; #自定义格式
+    access_log log/access.log myFormat;  #combined为日志格式的默认值
+    sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。
+    sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。
+    keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。
+    upstream mysvr {   
+      server 127.0.0.1:7878;
+      server 192.168.10.121:3333 backup;  #热备
+    }
+    error_page 404 https://www.baidu.com; #错误页
+    server {
+        keepalive_requests 120; #单连接请求上限次数。
+        listen       4545;   #监听端口
+        server_name  127.0.0.1;   #监听地址       
+        location  ~*^.+$ {       #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+           #root path;  #根目录
+           #index vv.txt;  #设置默认页
+           proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
+           deny 127.0.0.1;  #拒绝的ip
+           allow 172.18.5.54; #允许的ip           
+        } 
+    }
+}
+</code></pre><p>实战示例<br>1.准备1个nginx和3个tomcat服务器</p>
+<p>2.修改Tomcat服务器的端口号为：8081、8082、8083</p>
+<p>conf文件夹下的server.xml</p>
+<p>第一个tomcat：</p>
+<pre><code>&lt;Connector port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;
+           connectionTimeout=&quot;20000&quot;
+           redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第二个tomcat：</p>
+<pre><code>&lt;Connector port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;
+           connectionTimeout=&quot;20000&quot;
+           redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第三个tomcat：</p>
+<pre><code>&lt;Connector port=&quot;8083&quot; protocol=&quot;HTTP/1.1&quot;
+           connectionTimeout=&quot;20000&quot;
+           redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>修改服务器页面信息<br>webapps下面的ROOT的index.html<br>第一个tomcat：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        8081
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>第二个tomcat：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        8082
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>第三个tomcat：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        8083
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>3.启动Tomcat服务器<br>双击bin文件夹下的startup.bat,启动tomcat。查看tomcat是否正常启动。</p>
+<p><img src="/2018/04/03/linux/nginx-note/tomcat-1.png" alt="concurrency"></p>
+<p><img src="/2018/04/03/linux/nginx-note/tomcat-2.png" alt="concurrency"></p>
+<p><img src="/2018/04/03/linux/nginx-note/tomcat-3.png" alt="concurrency"></p>
+<p>在浏览器中分别输入:<br><a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a></p>
+<p><img src="/2018/04/03/linux/nginx-note/8081.png" alt="concurrency"></p>
+<p><a href="http://localhost:8082" target="_blank" rel="noopener">http://localhost:8082</a></p>
+<p><img src="/2018/04/03/linux/nginx-note/8082.png" alt="concurrency"></p>
+<p><a href="http://localhost:8083" target="_blank" rel="noopener">http://localhost:8083</a></p>
+<p><img src="/2018/04/03/linux/nginx-note/8083.png" alt="concurrency"></p>
+<p>注意：启动服务器前，电脑上必须已经配置好Java环境</p>
+<p>4.Nginx负载均衡配置<br>修改配置文件conf文件下面的nginx.conf</p>
+<pre><code>upstream czq.cn {
+ server localhost:8081;
+ server localhost:8082;
+ server localhost:8083;
+}
+
+server {
+    listen       80;
+    server_name  localhost;     
+    location / {
+        proxy_pass http://czq.cn;
+    }
+}
+</code></pre><p>保存后启动nginx服务器<br>在浏览器输入：<a href="http://localhost，多次刷新，可成功交替访问第三个Tomcat服务器" target="_blank" rel="noopener">http://localhost，多次刷新，可成功交替访问第三个Tomcat服务器</a><br>第一、二次：<br><img src="/2018/04/03/linux/nginx-note/localhost-1.png" alt="concurrency"></p>
+<p>第三、四次：<br><img src="/2018/04/03/linux/nginx-note/localhost-2.png" alt="concurrency"></p>
+<p>第五、六次：<br><img src="/2018/04/03/linux/nginx-note/localhost-3.png" alt="concurrency"></p>
+<p>常见问题<br>启动nginx失败，报错信息如下:</p>
+<p>Starting nginx: nginx: [emerg] bind() to 0.0.0.0:80 failed ((10013: An attempt was made to access a socket in a way forbidden by its access permissions)</p>
+<p>错误原因是绑定80端口错误，说明80端口被占用，nginx绑定失败。<br>解决办法：<br>1.kill掉占用80端口的程序，再次启动nginx<br>2.如若占用80端口的服务/程序不能关闭，则更改nginx监听的端口号</p>
+<p>Windows平台下80端口被System占用解决办法</p>
+<p>解决办法：<br>1.按键win+R打开运行界面，输入cmd进入控制台界面<br>2.输入netstat -ano | findstr “:80 “<br>通过上述命令查看80端口占用情况，查看后，pid的值为4。</p>
+<p>问题分析：很有可能是被IIS或者SQLServer占用<br>如果是被SQL Server Reporting Services 这项服务占用了80端口，把该服务关闭后Nginx启动成功！<br>操作如下：<br>1.在开始的工具栏中，找到对应SqlServer版本下配置工具中【】Reporting Services 配置管理器】，停止占用80端口的报表服务（Reporting Service）。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag">#nginx</a>
+          
+            <a href="/tags/反向代理/" rel="tag">#反向代理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/linux/lvs负载均衡机制/" rel="prev">lvs负载均衡机制</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/03/big-data/hadoop-hdfs-note/" rel="next">hdfs-笔记</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+              
+
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                         
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            <!--
+            
+            -->
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="moonights" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">moonights</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/moonights" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moonights" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/moonights" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/moonights" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://moonights.github.io/about/" target="_blank">About</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx常用功能"><span class="nav-number">3.</span> <span class="nav-text">Nginx常用功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Http代理"><span class="nav-number">3.1.</span> <span class="nav-text">1.Http代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-负载均衡"><span class="nav-number">3.2.</span> <span class="nav-text">2.负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Nginx负载均衡详解"><span class="nav-number">3.2.1.</span> <span class="nav-text">Nginx负载均衡详解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-web缓存"><span class="nav-number">3.3.</span> <span class="nav-text">3.web缓存</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2019
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moonights
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  <script type="text/javascript">
+    var disqus_shortname = 'moonights';
+    var disqus_identifier = '2018/04/03/linux/nginx-note/';
+    var disqus_title = 'nginx-学习笔记';
+    var disqus_url = 'http://blog.moonights.com/2018/04/03/linux/nginx-note/';
+
+    function run_disqus_script(disqus_script){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    run_disqus_script('count.js');
+    
+      run_disqus_script('embed.js');
+    
+  </script>
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
