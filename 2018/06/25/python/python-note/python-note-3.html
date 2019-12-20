@@ -1,0 +1,83 @@
+<hr>
+<p>title: python-学习笔记系列：三、逻辑<br>date: 2018-04-16 12:55:43<br>tags: [pyhton]</p>
+<h2 id="categories-python"><a href="#categories-python" class="headerlink" title="categories: python"></a>categories: python</h2><h1 id="python-逻辑"><a href="#python-逻辑" class="headerlink" title="python 逻辑"></a>python 逻辑</h1><h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><h3 id="循环字符串"><a href="#循环字符串" class="headerlink" title="循环字符串"></a>循环字符串</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> eachLetter <span class="keyword">in</span> <span class="string">"Names"</span>:
+<span class="meta">... </span>    print(<span class="string">'letter:'</span>,eachLetter)
+...
+letter: N
+letter: a
+letter: m
+letter: e
+letter: s
+</code></pre>
+<h3 id="range函数"><a href="#range函数" class="headerlink" title="range函数"></a>range函数</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>,<span class="number">2</span>):
+<span class="meta">... </span>    print(i)
+...
+<span class="number">1</span>
+<span class="number">3</span>
+<span class="number">5</span>
+<span class="number">7</span>
+<span class="number">9</span>
+</code></pre>
+<h3 id="循环列表"><a href="#循环列表" class="headerlink" title="循环列表"></a>循环列表</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> eachname <span class="keyword">in</span> [<span class="string">'walter'</span>,<span class="string">'nicole'</span>]:
+<span class="meta">... </span>    print(eachname)
+...
+walter
+nicole
+
+<span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i,j <span class="keyword">in</span> enumerate([<span class="string">'b'</span>,<span class="string">'a'</span>,<span class="string">'c'</span>]):
+<span class="meta">... </span>    print(i,j)
+...
+<span class="number">0</span> b
+<span class="number">1</span> a
+<span class="number">2</span> c
+</code></pre>
+<h3 id="循环字典"><a href="#循环字典" class="headerlink" title="循环字典"></a>循环字典</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> k,v <span class="keyword">in</span> {<span class="string">'a'</span>:<span class="number">1</span>,<span class="string">'b'</span>:<span class="string">'c'</span>}.items():
+<span class="meta">... </span>    print(k,v)
+...
+a <span class="number">1</span>
+b c
+</code></pre>
+<h2 id="while语句"><a href="#while语句" class="headerlink" title="while语句"></a>while语句</h2><h3 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span>count = <span class="number">0</span>
+<span class="meta">&gt;&gt;&gt; </span><span class="keyword">while</span> count&lt;<span class="number">4</span>:
+<span class="meta">... </span>    print(count)
+<span class="meta">... </span>    count += <span class="number">1</span>
+...
+<span class="number">0</span>
+<span class="number">1</span>
+<span class="number">2</span>
+<span class="number">3</span>
+</code></pre>
+<h3 id="无限循环"><a href="#无限循环" class="headerlink" title="无限循环"></a>无限循环</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">while</span> <span class="keyword">True</span>:
+<span class="meta">... </span>    print(“endless loop”)
+...
+
+</code></pre>
+<h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><h3 id="if…elif…else"><a href="#if…elif…else" class="headerlink" title="if…elif…else"></a>if…elif…else</h3><pre><code class="python"><span class="keyword">if</span> user_case == “create”:
+    action = “create item”
+<span class="keyword">elif</span> user_case == <span class="string">'delete'</span>:
+    action = “delete item”
+<span class="keyword">else</span>:
+    action = “invalid choice..”
+</code></pre>
+<h3 id="缩进对于if语句格外重要"><a href="#缩进对于if语句格外重要" class="headerlink" title="缩进对于if语句格外重要"></a>缩进对于if语句格外重要</h3><pre><code class="python"><span class="keyword">if</span> user_case == “create”:
+    <span class="keyword">if</span> time_now &lt; <span class="number">5</span>:
+        action = “create item”
+<span class="keyword">else</span>:
+    action = “do nothing”
+</code></pre>
+<h3 id="三元表达式"><a href="#三元表达式" class="headerlink" title="三元表达式"></a>三元表达式</h3><pre><code class="python"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">5</span>
+<span class="meta">&gt;&gt;&gt; </span>y = <span class="number">4</span>
+<span class="meta">&gt;&gt;&gt; </span>smaller = x <span class="keyword">if</span> x&lt;y <span class="keyword">else</span> y
+<span class="meta">&gt;&gt;&gt; </span>smaller
+<span class="number">4</span>
+</code></pre>
+<h3 id="break…-pass…-continue"><a href="#break…-pass…-continue" class="headerlink" title="break….pass….continue"></a>break….pass….continue</h3><pre><code class="python"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):
+    <span class="keyword">if</span> i &lt;<span class="number">5</span>:
+        <span class="keyword">pass</span>
+    <span class="keyword">elif</span> i == <span class="number">7</span>:
+        <span class="keyword">continue</span>
+    <span class="keyword">elif</span> i == <span class="number">8</span>:
+        print(i)
+    <span class="keyword">else</span>:
+        <span class="keyword">break</span>
+</code></pre>

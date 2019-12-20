@@ -1,0 +1,58 @@
+<hr>
+<p>title: python-学习笔记系列：一、基本语法<br>date: 2018-04-15 10:55:43<br>tags: [pyhton]</p>
+<h2 id="categories-python"><a href="#categories-python" class="headerlink" title="categories: python"></a>categories: python</h2><h2 id="一、基本语法"><a href="#一、基本语法" class="headerlink" title="一、基本语法"></a>一、基本语法</h2><p>python2.x与python3.x区别很大，新版特性很强，更优化，此笔记学习新版本特性，暂不关注旧版本。</p>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><pre><code>标识符：数字、字母、下划线，且数字不开头。
+区分大小写；
+单下划线开头_foo表示不能直接访问，需要用接口访问，不可”from xxx import”导入。__foo双下划线表示私有。前后双下划线___foo__特殊函数。
+</code></pre><h3 id="保留字符"><a href="#保留字符" class="headerlink" title="保留字符"></a>保留字符</h3><pre><code>and、exec、not、assert、finally、or、break、for、pass、class、from、print、continue、global、raise、def、if、return、del、import、try、elif、in、while、else、is、with、except、lambda、yield。
+</code></pre><p>Python3中end可以将结果输入到同一行，或者输出尾部追加不同的字符</p>
+<pre><code class="python"><span class="comment">#Fibonacci Series: 斐波那契数列</span>
+a,b = <span class="number">0</span>,<span class="number">1</span>
+<span class="keyword">while</span> b&lt;<span class="number">1000</span>:
+    print(b,end=<span class="string">','</span>)
+    a,b = b,a+b
+
+</code></pre>
+<h3 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h3><p>Python区别于其他语言最大处，python不用{}来控制类、函数和逻辑块。而是用缩进，空格数无妨，但是逻辑块前后必须相同个数空格，使用空格或者tab都行，但是最好别混用</p>
+<pre><code class="python"><span class="keyword">if</span> <span class="keyword">True</span>:
+    <span class="keyword">print</span> <span class="string">"True"</span>
+<span class="keyword">else</span>:
+    <span class="keyword">print</span> <span class="string">"False"</span>
+</code></pre>
+<p>python一般新的一行意味着上个语句块结束。但是多行语句可以用\符号：</p>
+<pre><code class="python">string = abc + \
+    bcd + \
+    efg
+<span class="comment"># 要是有{}、[]、()的语句，断为多行也无妨。</span>
+girls = [<span class="string">'allen'</span>,<span class="string">'angle'</span>
+        <span class="string">'candy'</span>,<span class="string">'lily'</span>
+        <span class="string">'merry'</span>]
+
+</code></pre>
+<h3 id="引号与注释"><a href="#引号与注释" class="headerlink" title="引号与注释"></a>引号与注释</h3><p>python的字符串可以用单引号’、双引号”、三引号’’’包括，其中三引号可以多行分段，有时候可以用作注释。</p>
+<p> #符号表示注释，可写在当行，或者代码尾部。多行注释使用三个单引号’’’，或三个双引号”””包括。</p>
+<pre><code class="python"><span class="comment">#单行注释</span>
+<span class="keyword">if</span> <span class="keyword">True</span>
+  <span class="keyword">print</span> <span class="string">'hello'</span> <span class="comment">#单个注释，新版中需要加()，视为函数</span>
+ <span class="string">'''</span>
+<span class="string">多行注释</span>
+<span class="string">是这么写的</span>
+<span class="string">真的可以么</span>
+<span class="string">在markdown语法中</span>
+<span class="string">'''</span>
+<span class="string">"""</span>
+<span class="string">似乎可以</span>
+<span class="string">好像是的哦</span>
+<span class="string">"""</span>    
+</code></pre>
+<p>函数之间，类与函数间用空行分开，便于阅读和维护</p>
+<h3 id="零碎语法"><a href="#零碎语法" class="headerlink" title="零碎语法"></a>零碎语法</h3><p>多条语句同一行，可以;分割。</p>
+<p>同一代码组，首行关键字后:结尾，同一代码组前后空白数相同。</p>
+<p>旧版中文编码需要头文件注释</p>
+<p>Python中True和False，不能小写！</p>
+<pre><code class="python"><span class="comment">#!/usr/bin/python</span>
+<span class="comment">#_*_coding:utf-8 _*_</span>
+<span class="comment">#或者</span>
+<span class="comment">#coding=utf-8</span>
+<span class="comment">#新版python已经默认支持了。</span>
+</code></pre>

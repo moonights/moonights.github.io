@@ -50,7 +50,7 @@
 <meta property="og:site_name" content="moonights&#39;s blog">
 <meta property="og:description" content="一、基本语法python2.x与python3.x区别很大，新版特性很强，更优化，此笔记学习新版本特性，暂不关注旧版本。 标识符标识符：数字、字母、下划线，且数字不开头。 区分大小写； 单下划线开头_foo表示不能直接访问，需要用接口访问，不可”from xxx import”导入。__foo双下划线表示私有。前后双下划线___foo__特殊函数。 保留字符and、exec、not、assert、">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-06T07:58:46.201Z">
+<meta property="og:updated_time" content="2019-12-20T01:46:47.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python-学习笔记系列：一、基本语法">
 <meta name="twitter:description" content="一、基本语法python2.x与python3.x区别很大，新版特性很强，更优化，此笔记学习新版本特性，暂不关注旧版本。 标识符标识符：数字、字母、下划线，且数字不开头。 区分大小写； 单下划线开头_foo表示不能直接访问，需要用接口访问，不可”from xxx import”导入。__foo双下划线表示私有。前后双下划线___foo__特殊函数。 保留字符and、exec、not、assert、">
@@ -409,56 +409,19 @@
 单下划线开头_foo表示不能直接访问，需要用接口访问，不可”from xxx import”导入。__foo双下划线表示私有。前后双下划线___foo__特殊函数。
 </code></pre><h3 id="保留字符"><a href="#保留字符" class="headerlink" title="保留字符"></a>保留字符</h3><pre><code>and、exec、not、assert、finally、or、break、for、pass、class、from、print、continue、global、raise、def、if、return、del、import、try、elif、in、while、else、is、with、except、lambda、yield。
 </code></pre><p>Python3中end可以将结果输入到同一行，或者输出尾部追加不同的字符</p>
-<pre><code>&gt; #Fibonacci Series: 斐波那契数列
-&gt; a,b = 0,1
-&gt; while b&lt;1000:
-&gt;     print(b,end=&apos;,&apos;)
-&gt;     a,b = b,a+b
-&gt;
-</code></pre><p> ​</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Fibonacci Series: 斐波那契数列</span></span><br><span class="line">a,b = <span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> b&lt;<span class="number">1000</span>:</span><br><span class="line">    print(b,end=<span class="string">','</span>)</span><br><span class="line">    a,b = b,a+b</span><br></pre></td></tr></table></figure>
 <h3 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h3><p>Python区别于其他语言最大处，python不用{}来控制类、函数和逻辑块。而是用缩进，空格数无妨，但是逻辑块前后必须相同个数空格，使用空格或者tab都行，但是最好别混用</p>
-<pre><code>&gt; if True:
-&gt;     print &quot;True&quot;
-&gt; else:
-&gt;     print &quot;False&quot;
-&gt;
-</code></pre><p>python一般新的一行意味着上个语句块结束。但是多行语句可以用\符号：</p>
-<pre><code>&gt; string = abc + \
-&gt;       bcd + \
-&gt;       efg
-&gt; # 要是有{}、[]、()的语句，断为多行也无妨。
-&gt; girls = [&apos;allen&apos;,&apos;angle&apos;
-&gt;         &apos;candy&apos;,&apos;lily&apos;
-&gt;         &apos;merry&apos;]
-&gt;
-</code></pre><h3 id="引号与注释"><a href="#引号与注释" class="headerlink" title="引号与注释"></a>引号与注释</h3><p>python的字符串可以用单引号’、双引号”、三引号’’’包括，其中三引号可以多行分段，有时候可以用作注释。</p>
-<p> #符号表示注释，可写在当行，或者代码尾部。多行注释使用三个单引号’’’，或三个双引号”””包括。</p>
-<pre><code>&gt; #单行注释
-&gt; if True
-&gt;   print &apos;hello&apos; #单个注释，新版中需要加()，视为函数
-&gt; &apos;&apos;&apos;
-&gt; 多行注释
-&gt; 是这么写的
-&gt; 真的可以么
-&gt; 在markdown语法中
-&gt; &apos;&apos;&apos;
-&gt; &quot;&quot;&quot;
-&gt; 似乎可以
-&gt; 好像是的哦
-&gt; &quot;&quot;&quot;    
-&gt;
-</code></pre><p>函数之间，类与函数间用空行分开，便于阅读和维护</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"True"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"False"</span></span><br></pre></td></tr></table></figure>
+<p>python一般新的一行意味着上个语句块结束。但是多行语句可以用\符号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">string = abc + \</span><br><span class="line">    bcd + \</span><br><span class="line">    efg</span><br><span class="line"><span class="comment"># 要是有&#123;&#125;、[]、()的语句，断为多行也无妨。</span></span><br><span class="line">girls = [<span class="string">'allen'</span>,<span class="string">'angle'</span></span><br><span class="line">        <span class="string">'candy'</span>,<span class="string">'lily'</span></span><br><span class="line">        <span class="string">'merry'</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="引号与注释"><a href="#引号与注释" class="headerlink" title="引号与注释"></a>引号与注释</h3><p>python的字符串可以用单引号’、双引号”、三引号’’’包括，其中三引号可以多行分段，有时候可以用作注释。</p>
+<p> #符号表示注释，可写在当行，或者代码尾部。多行注释使用三个单引号’’’，或三个双引号”””包括。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#单行注释</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">True</span></span><br><span class="line">  <span class="keyword">print</span> <span class="string">'hello'</span> <span class="comment">#单个注释，新版中需要加()，视为函数</span></span><br><span class="line"> <span class="string">'''</span></span><br><span class="line"><span class="string">多行注释</span></span><br><span class="line"><span class="string">是这么写的</span></span><br><span class="line"><span class="string">真的可以么</span></span><br><span class="line"><span class="string">在markdown语法中</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">似乎可以</span></span><br><span class="line"><span class="string">好像是的哦</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></p>
+<p>函数之间，类与函数间用空行分开，便于阅读和维护</p>
 <h3 id="零碎语法"><a href="#零碎语法" class="headerlink" title="零碎语法"></a>零碎语法</h3><p>多条语句同一行，可以;分割。</p>
 <p>同一代码组，首行关键字后:结尾，同一代码组前后空白数相同。</p>
 <p>旧版中文编码需要头文件注释</p>
-<p>Python中True和False，不能小写！</p>
-<pre><code>&gt;  #!/usr/bin/python
-&gt;  #_*_coding:utf-8 _*_
-&gt;  #或者
-&gt;  #coding=utf-8
-&gt;  #新版python已经默认支持了。
-&gt;
-</code></pre></span>
+<p>Python中True和False，不能小写！<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#_*_coding:utf-8 _*_</span></span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="comment">#新版python已经默认支持了。</span></span><br></pre></td></tr></table></figure></p>
+</span>
       
     </div>
 
@@ -475,7 +438,7 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/15/python/python-note/" rel="prev">python-学习笔记系列-提纲</a>
+              <a href="/2018/04/15/python/python-note/python-note-2/" rel="prev">python-学习笔记系列：二、数据类型</a>
             
           </div>
 
@@ -672,7 +635,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">51</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -686,7 +649,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

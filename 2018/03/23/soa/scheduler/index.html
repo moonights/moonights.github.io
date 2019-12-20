@@ -1,0 +1,1026 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="xxx" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观." />
+
+
+
+  <meta name="keywords" content="分布式," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="moonights's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="如何选型一个合适的框架-分布式任务调度框架选型背景定时任务是大家再开发中一个不可避免的业务，比如在一些电商系统中可能会定时给用户发送生日券，一些对账系统中可能会定时去对账。大概再很久以前每个服务可能就一台机器，再这台机器上直接搞个Timerschedule基本上就能满足我们的业务需求，但是随着时代的变迁，单台机器已经远远不能满足我们的需要，这个时候我们可能需要10台，20台甚至更多机器来运行我们的">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何选型一个合适的框架-分布式任务调度框架选型">
+<meta property="og:url" content="http://blog.moonights.com/2018/03/23/soa/scheduler/index.html">
+<meta property="og:site_name" content="moonights&#39;s blog">
+<meta property="og:description" content="如何选型一个合适的框架-分布式任务调度框架选型背景定时任务是大家再开发中一个不可避免的业务，比如在一些电商系统中可能会定时给用户发送生日券，一些对账系统中可能会定时去对账。大概再很久以前每个服务可能就一台机器，再这台机器上直接搞个Timerschedule基本上就能满足我们的业务需求，但是随着时代的变迁，单台机器已经远远不能满足我们的需要，这个时候我们可能需要10台，20台甚至更多机器来运行我们的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-17T02:38:23.665Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何选型一个合适的框架-分布式任务调度框架选型">
+<meta name="twitter:description" content="如何选型一个合适的框架-分布式任务调度框架选型背景定时任务是大家再开发中一个不可避免的业务，比如在一些电商系统中可能会定时给用户发送生日券，一些对账系统中可能会定时去对账。大概再很久以前每个服务可能就一台机器，再这台机器上直接搞个Timerschedule基本上就能满足我们的业务需求，但是随着时代的变迁，单台机器已经远远不能满足我们的需要，这个时候我们可能需要10台，20台甚至更多机器来运行我们的">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 如何选型一个合适的框架-分布式任务调度框架选型 | moonights's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'xxx', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?xxx";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">1900</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'xxx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              如何选型一个合适的框架-分布式任务调度框架选型
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-03-23T10:55:43+08:00" content="2018-03-23">
+            2018-03-23
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/分布式/" itemprop="url" rel="index">
+                  <span itemprop="name">分布式</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/03/23/soa/scheduler/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/23/soa/scheduler/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="如何选型一个合适的框架-分布式任务调度框架选型"><a href="#如何选型一个合适的框架-分布式任务调度框架选型" class="headerlink" title="如何选型一个合适的框架-分布式任务调度框架选型"></a>如何选型一个合适的框架-分布式任务调度框架选型</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>定时任务是大家再开发中一个不可避免的业务，比如在一些电商系统中可能会定时给用户发送生日券，一些对账系统中可能会定时去对账。大概再很久以前每个服务可能就一台机器，再这台机器上直接搞个Timerschedule基本上就能满足我们的业务需求，但是随着时代的变迁，单台机器已经远远不能满足我们的需要，这个时候我们可能需要10台，20台甚至更多机器来运行我们的业务，接受我们的流量，这就是我们所说的横向扩展。但是这里就有个问题，这么多台机器如果还用我们的Timerschedule去做会发生什么呢？再上面的电商系统中有可能会给某个用户发很多张生日券，对公司造成很多损失，所以我们需要一些其他方法，让定时任务在多台机器上只执行一次。</p>
+<p>这里想问下大家在没有了解过或使用过分布式任务调度框架之前大家是如何做定时任务的呢？在Spring项目中大家肯定都知道Spring-Scheduler，只需要在Spring中的bean的对应方法上加上@Scheduler注解即可完成我们的定时任务，但是光是用这个注解还远远不能保证定时任务执行多次，我们需要一些其他手段的保证，一般来说方法可能不外乎下面几种（都是基于Spring的项目来说）：</p>
+<pre><code>一台机器，我们可以将一些不太重要的定时任务，可以使用一个专门的服务台承载，然后使用单机跑，就算挂了只要我们再可接受的时间之内将其恢复，我们的业务也不会受到影响。
+
+多台机器，加分布式锁，只要我们执行任务的时候首先获取一把分布式锁，如果获取失败那么久证明有其他服务已经再运行，如果获取成功那么证明没有服务在运行定时任务，那么就可以执行。
+
+多台机器，利用ZooKeeper对Leader机器执行定时任务，有很多业务已经使用了ZK，那么执行定时任务的时候判断自己是否是Leader，如果不是则不执行，如果是则执行业务逻辑，这样也能达到我们的目的。
+</code></pre><p>目前我们公司做定时任务也是使用的上面三种方法，在业务初期使用这些方法基本也能大体满足，但是随着时间的迁移，我们遇到的问题越来越多，这里和大家分享一下：</p>
+<pre><code>首先是单机问题，如何划分一个业务不是很重要，这一块本来就比较复杂，有可能每个人都说自己的业务都重要，其次是如果单机挂了 这个挂有可能是宕机，有可能是其他的一些情况，这个时间如何能保证我们再可接受的范围之间恢复，这些都是难点。
+目前我们使用定时任务的时候，如果想让它马上执行一次，这个时候可能就需要额外再写一个Rest接口或者再另外写一个单独的Job。
+还有个是我们需要更改定时任务执行时间，比如现在有个需求是从每12个小时执行一次变成每6小时执行一次，我们又得修改代码，提交pr，然后打包上线，只是修改一个时间又得花费我们很多时间。
+无法暂停我们的定时任务，当我们的定时任务可能出现一些问题，比如一些定时报警的需求，当报警突然变得很多，这个时候需要暂停一下让其停止发送报警，这个时候可能我们可以用一些分布式配置的开关去做，再逻辑中判断定时任务开关是否打开，然后来做。这样做虽然也比较简单，但是我们这样需要新添加一些与任务无关的逻辑。
+缺少对定时任务的监控，任务失败之后开发人员无从得知，有人说不是有Error日志吗，如果一个Error日志就一次报警那你们的服务能受得了吗，一般来说连续几次Error才会触发报警，而我们定时任务的周期性的特性是不容易触发连续的Error。
+</code></pre><p>当然还有一些或多或少的小问题这里就不一一列举了，如果大家有这种经历可以自己慢慢体会发现。</p>
+<h2 id="调研的基本原则"><a href="#调研的基本原则" class="headerlink" title="调研的基本原则"></a>调研的基本原则</h2><p>上面第一章讲了我们框架的原因，不论你要引入或改进什么，都需要原因，因为做任何事都有成本，我经常看到一些很小的项目就开始搞引入消息队列，或者分布式事务等等，这样做反而是本末倒置，比如可能有一些博客系统就搞个消息队列削峰减流，这样做有可能还没有同步调用来得快。</p>
+<p>当我们有了原因之后，就可以着手做一些调研或者技术方案的设计。这里我讲一下我的调研框架一些基本原则，如果大家以后有类似的调研框架的需求都可以往这个里面来套。</p>
+<pre><code>简单-对开发者接入简单，对使用者使用简单。
+丰富的文档，有很多开源的项目文档少之又少，当然还有一些开源项目只有英文文档，如果你英文不是很行，那可能需要考虑中文居多的文档。
+有管理界面，很方便执行操作和统计数据。
+支持主流框架：比如Spring,Springboot等，当然这个至少要支持你们业务中的主流框架。
+框架轻量级，方便根据自己的需求进行定制化。
+高性能，高可靠，高可用：不能让框架成为业务中的瓶颈。
+代码更新频率和社区使用情况：使用的公司越多证明其越受更多人的喜爱，代码更新频率越高证明出现问题就会越少，最好是由大厂开源并且维护。
+多语言需求：如果在你们业务中有多语言需求，比如你们公司用的开发语言很多，都需要调度框架那么你需要使用多语言支持。比如Rpc支持多语言的代表就是Thrift。
+能否解决当前的痛点：这个是最重要的，如果连你问题都解决不了那使用这个还有什么意义呢？
+</code></pre><p>当我们有了上述的几大原则之后，我们接下来可以进入调研。</p>
+<h2 id="调研框架"><a href="#调研框架" class="headerlink" title="调研框架"></a>调研框架</h2><h3 id="TBSchedule"><a href="#TBSchedule" class="headerlink" title="TBSchedule"></a>TBSchedule</h3><p>一般调研Java系的一些框架，可以先看看阿里是不是有开源的，毕竟最近这几年阿里在开源这一块做得是非常的好，再网上搜索到阿里在12年开源了一个调度框架叫TBSchedule，现在再去搜索代码，发现已经人走茶凉，代码都被清理干净了。当然还有一个个人项目将其Fork出来再不断维护，但是使用者实在是少这里就不说明了。 github地址：github.com/taobao/TBSc…</p>
+<h3 id="elastic-job"><a href="#elastic-job" class="headerlink" title="elastic-job"></a>elastic-job</h3><p>elastic-Job 是当当开源的一个分布式调度解决方案，由两个相互独立的子项目 Elastic-Job-Lite 和 Elastic-Job-Cloud 组成。定位为轻量级无中心化解决方案，使用 jar 包的形式提供分布式任务的协调服务。支持分布式调度协调、弹性扩容缩容、失效转移、错过执行作业重触发、并行调度、自诊断和修复等等功能特性。</p>
+<p>这个框架大概在2年前很火，当时使用的公司很多，想必很多人也听过了，但是很可惜现在已经不在维护了，代码已经有2年没有更新了，这里违反了更新频率的原则，如果出现问题可能都没什么人帮助你，所以我们并不是很推荐使用。 github地址：github.com/elasticjob/…</p>
+<h3 id="一些比较小众的"><a href="#一些比较小众的" class="headerlink" title="一些比较小众的"></a>一些比较小众的</h3><p>在网上有一些比较小众的github star很少，更新频率也很少： Uncode-Schedule，LTS,openCron等等，这些也不符合我们的原则，都不予以考虑</p>
+<h3 id="XXL-JOB"><a href="#XXL-JOB" class="headerlink" title="XXL-JOB"></a>XXL-JOB</h3><p>由于分布式定时任务现在还没有基金会比如CNCF,Apache等，抉择起来可能不是那么难。不像消息队列再Apache里面就有好几个:Kafka,rocketmq,plusar等等，每一个的社区都很庞大，可能选择是比较困难的。那么我们基本就还剩下两个选择，一个是自研，这种任务调度框架，再研发的困难程度上是远远比不上消息队列的研发，所以其实很多公司都选择了自研，比如：美团的Crane这些。但是对于一些消息队列这些复杂的中间件可能会选择二次开发，比如美团的mafka就是基于kafka二次开发，滴滴的DDMQ也是基于Rocketmq。而我们目前如果选择自研再资源上来说是明显不够的，这里我们还是使用的是二次开发框架的策略。</p>
+<p>当然这里还剩下一个XXL-Job:<a href="http://www.xuxueli.com/xxl-job" target="_blank" rel="noopener">www.xuxueli.com/xxl-job</a> 的选择，其基本符合我们的原则，目前代码也在持续更新，issue作者也在积极的回复，使用的公司也有200多家,其中包括之前的点评，同时其他的原则也很符合。一般来说当你决定选择某个框架的时候需要详细的列举一下优点，好让其他人得以信服。</p>
+<p>xxl-job有下面一些特点：</p>
+<pre><code>简单：支持通过Web页面对任务进行CRUD操作，操作简单，一分钟上手；
+动态：支持动态修改任务状态、启动/停止任务，以及终止运行中任务，即时生效；
+调度中心HA（中心式）：调度采用中心式设计，“调度中心”自研调度组件并支持集群部署，可保证调度中心HA；
+执行器HA（分布式）：任务分布式执行，任务&quot;执行器&quot;支持集群部署，可保证任务执行HA；
+注册中心: 执行器会周期性自动注册任务, 调度中心将会自动发现注册的任务并触发执行。同时，也支持手动录入执行器地址；
+弹性扩容缩容：一旦有新执行器机器上线或者下线，下次调度时将会重新分配任务；
+路由策略：执行器集群部署时提供丰富的路由策略，包括：第一个、最后一个、轮询、随机、一致性HASH、最不经常使用、最近最久未使用、故障转移、忙碌转移等；
+故障转移：任务路由策略选择&quot;故障转移&quot;情况下，如果执行器集群中某一台机器故障，将会自动Failover切换到一台正常的执行器发送调度请求。
+阻塞处理策略：调度过于密集执行器来不及处理时的处理策略，策略包括：单机串行（默认）、丢弃后续调度、覆盖之前调度；
+事件触发：除了&quot;Cron方式&quot;和&quot;任务依赖方式&quot;触发任务执行之外，支持基于事件的触发任务方式。调度中心提供触发任务单次执行的API服务，可根据业务事件灵活触发。
+任务进度监控：支持实时监控任务进度；
+Rolling实时日志：支持在线查看调度结果，并且支持以Rolling方式实时查看执行器输出的完整的执行日志
+</code></pre><p>基本上上面的一些特点都是我们业务中所需要的，所以这里最后选择了XXL-JOB</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>俗话说：授人以鱼不如授人以渔，之前的文章每次都是介绍某某框架，这一次我偏向于介绍我是如何选择的这款框架，让大家再以后调研的过程中也可以按照这个思路，如果说你也有好的并且不同的调研思路，欢迎留言或者加群交流。当然一般调研完毕之后，作为一个调研人如果你不弄清楚这个框架的源码和实现原理，那么就是一个不合格的调研人，所以下一篇文章我会详细的介绍XXL-Job的实现原理。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/分布式/" rel="tag">#分布式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/23/project/lombok/" rel="prev">工具准备篇：1.IDEA 安装lombok及使用</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/16/java/regexp-note/" rel="next">regexp</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+              
+
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                         
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            <!--
+            
+            -->
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="moonights" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">moonights</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/moonights" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moonights" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/moonights" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/moonights" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://moonights.github.io/about/" target="_blank">About</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何选型一个合适的框架-分布式任务调度框架选型"><span class="nav-number">1.</span> <span class="nav-text">如何选型一个合适的框架-分布式任务调度框架选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调研的基本原则"><span class="nav-number">1.2.</span> <span class="nav-text">调研的基本原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调研框架"><span class="nav-number">1.3.</span> <span class="nav-text">调研框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TBSchedule"><span class="nav-number">1.3.1.</span> <span class="nav-text">TBSchedule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elastic-job"><span class="nav-number">1.3.2.</span> <span class="nav-text">elastic-job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些比较小众的"><span class="nav-number">1.3.3.</span> <span class="nav-text">一些比较小众的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XXL-JOB"><span class="nav-number">1.3.4.</span> <span class="nav-text">XXL-JOB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2019
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moonights
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  <script type="text/javascript">
+    var disqus_shortname = 'moonights';
+    var disqus_identifier = '2018/03/23/soa/scheduler/';
+    var disqus_title = '如何选型一个合适的框架-分布式任务调度框架选型';
+    var disqus_url = 'http://blog.moonights.com/2018/03/23/soa/scheduler/';
+
+    function run_disqus_script(disqus_script){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    run_disqus_script('count.js');
+    
+      run_disqus_script('embed.js');
+    
+  </script>
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
