@@ -1,0 +1,1077 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="xxx" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观." />
+
+
+
+  <meta name="keywords" content="java,面试," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="moonights's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？ Java 虚拟机是一个可以执行 Java 字节码的虚拟机进程。Java 源文件被编译成能被 Java 虚拟机执行的字节码文件。Java 被设计成允许应用程序可以运行在任意的平台，而不需要程序员为每一个平台单独重写或者是重新编译。Java 虚拟机让这个变为可能，因为它知道底层硬件平台的指令长度和其他特性。  2.JDK和JRE">
+<meta name="keywords" content="java,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础面试系列-1">
+<meta property="og:url" content="http://blog.moonights.com/2016/07/12/java/java-qa-1/index.html">
+<meta property="og:site_name" content="moonights&#39;s blog">
+<meta property="og:description" content="1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？ Java 虚拟机是一个可以执行 Java 字节码的虚拟机进程。Java 源文件被编译成能被 Java 虚拟机执行的字节码文件。Java 被设计成允许应用程序可以运行在任意的平台，而不需要程序员为每一个平台单独重写或者是重新编译。Java 虚拟机让这个变为可能，因为它知道底层硬件平台的指令长度和其他特性。  2.JDK和JRE">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-26T02:45:43.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础面试系列-1">
+<meta name="twitter:description" content="1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？ Java 虚拟机是一个可以执行 Java 字节码的虚拟机进程。Java 源文件被编译成能被 Java 虚拟机执行的字节码文件。Java 被设计成允许应用程序可以运行在任意的平台，而不需要程序员为每一个平台单独重写或者是重新编译。Java 虚拟机让这个变为可能，因为它知道底层硬件平台的指令长度和其他特性。  2.JDK和JRE">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> java基础面试系列-1 | moonights's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'xxx', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?xxx";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">1900</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'xxx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              java基础面试系列-1
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-07-12T11:32:14+08:00" content="2016-07-12">
+            2016-07-12
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/java/" itemprop="url" rel="index">
+                  <span itemprop="name">java</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016/07/12/java/java-qa-1/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/12/java/java-qa-1/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="1-什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？"><a href="#1-什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？" class="headerlink" title="1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？"></a>1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？</h2><blockquote>
+<p>Java 虚拟机是一个可以执行 Java 字节码的虚拟机进程。Java 源文件被编译成能被 Java 虚拟机执行的字节码文件。<br>Java 被设计成允许应用程序可以运行在任意的平台，而不需要程序员为每一个平台单独重写或者是重新编译。<br>Java 虚拟机让这个变为可能，因为它知道底层硬件平台的指令长度和其他特性。</p>
+</blockquote>
+<h2 id="2-JDK和JRE的区别是什么？"><a href="#2-JDK和JRE的区别是什么？" class="headerlink" title="2.JDK和JRE的区别是什么？"></a>2.JDK和JRE的区别是什么？</h2><blockquote>
+<p>JDK: java开发工具包,包含了JRE、编译器和其它工具（如：javaDOc、java调试器)<br>JRE: java运行环境,包含java虚拟机和java程序所需的核心类库。<br>如果只是想跑java程序，那么只需安装JRE，如果要写java程序并且运行，那就需要JDK了。</p>
+</blockquote>
+<h2 id="3-”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？"><a href="#3-”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？" class="headerlink" title="3.”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？"></a>3.”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？</h2><blockquote>
+<p>如果一个类的变量或者方法前面有static修饰，那么表明这个方法或者变量属于这个类，也就是说可以在不创建对象的情况下直接使用<br>当父类的方法被private修饰时，表明该方法为父类私有，对其他任何类都是不可见的，因此如果子类定了一个与父类一样的方法，这对于子类来说相当于是一个新的私有方法，且如果要进行向上转型，然后去调用该“覆盖方法”，会产生编译错误</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">private</span> <span class="title">fun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &gt; ...</span><br><span class="line">&gt; &#125;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">private</span> <span class="title">fun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &gt; ...</span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">&gt; &gt; Parent c = <span class="keyword">new</span> Child();</span><br><span class="line">&gt; &gt; c.fun(); <span class="comment">//编译出错</span></span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>static方法时编译时静态绑定的，属于类，而覆盖是运行时动态绑定的(动态绑定的多态),因此不能覆盖.</p>
+</blockquote>
+<h2 id="4-Java支持的基本数据类型有哪些？什么是自动拆装箱？"><a href="#4-Java支持的基本数据类型有哪些？什么是自动拆装箱？" class="headerlink" title="4.Java支持的基本数据类型有哪些？什么是自动拆装箱？"></a>4.Java支持的基本数据类型有哪些？什么是自动拆装箱？</h2><blockquote>
+<p>java支持的基本数据类型有以下9种:byte,shot,int,long,float,double,char,boolean,void.<br>自动拆装箱是java从jdk1.5引用，目的是将原始类型自动的装换为相对应的对象，也可以逆向进行，即拆箱。这也体现java中一切皆对象的宗旨。<br>所谓自动装箱就是将原始类型自动的转换为对应的对象，而拆箱就是将对象类型转换为基本类型。java中的自动拆装箱通常发生在变量赋值的过程中，如：</p>
+</blockquote>
+<blockquote>
+<p>Integer object = 3; //自动装箱<br>int o = object; //拆箱</p>
+</blockquote>
+<blockquote>
+<p>1<br>2</p>
+</blockquote>
+<blockquote>
+<p>在java中，应该注意自动拆装箱，因为有时可能因为java自动装箱机制，而导致创建了许多对象，对于内存小的平台会造成压力。</p>
+</blockquote>
+<p>覆盖和重载是什么?</p>
+<h2 id="5-Java支持多继承么？如果不支持，如何实现"><a href="#5-Java支持多继承么？如果不支持，如何实现" class="headerlink" title="5.Java支持多继承么？如果不支持，如何实现?"></a>5.Java支持多继承么？如果不支持，如何实现?</h2><blockquote>
+<p>在java中是单继承的，也就是说一个类只能继承一个父类。<br>java中实现多继承有两种方式,一是接口，而是内部类.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现多个接口 如果两个接口的变量相同 那么在调用该变量的时候 编译出错</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">interface1</span> </span>&#123;</span><br><span class="line">&gt; <span class="keyword">static</span> String field = <span class="string">"dd"</span>; </span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span></span>;</span><br><span class="line">&gt; &#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">interface2</span> </span>&#123;</span><br><span class="line"><span class="keyword">static</span> String field = <span class="string">"dddd"</span>;</span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">()</span></span>;</span><br><span class="line">&gt; &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">child</span> <span class="keyword">implements</span> <span class="title">interface1</span>,<span class="title">interface2</span> </span>&#123;</span><br><span class="line">&gt; <span class="keyword">static</span> String field = <span class="string">"dddd"</span>;</span><br><span class="line">&gt; <span class="meta">@Override</span></span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &#125;</span><br><span class="line"></span><br><span class="line">&gt; <span class="meta">@Override</span></span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//内部类 间接多继承</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> </span>&#123;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">strong</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &gt; System.out.println(<span class="string">"父类"</span>);</span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mother</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; &gt; System.out.println(<span class="string">"母亲"</span>);</span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getStrong</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; Father f = <span class="keyword">new</span> Father();</span><br><span class="line">&gt; f.strong();</span><br><span class="line">&gt; &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getCute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt; Mother m = <span class="keyword">new</span> Mother();</span><br><span class="line">&gt; m.getCute();</span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-什么是值传递和引用传递？java中是值传递还是引用传递，还是都有"><a href="#6-什么是值传递和引用传递？java中是值传递还是引用传递，还是都有" class="headerlink" title="6.什么是值传递和引用传递？java中是值传递还是引用传递，还是都有?"></a>6.什么是值传递和引用传递？java中是值传递还是引用传递，还是都有?</h2><blockquote>
+<p>值传递 就是在方法调用的时候，实参是将自己的一份拷贝赋给形参，在方法内，对该参数值的修改不影响原来实参，常见的例子就是刚开始学习c语言的时候那个交换方法的例子了。<br>引用传递 是在方法调用的时候，实参将自己的地址传递给形参，此时方法内对该参数值的改变，就是对该实参的实际操作。<br>在java中只有一种传递方式，那就是值传递.可能比较让人迷惑的就是java中的对象传递时，对形参的改变依然会意向到该对象的内容。<br>下面这个例子来说明java中是值传递.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">&gt; &gt; StringBuffer sb = <span class="keyword">new</span> StringBuffer(<span class="string">"hello "</span>);</span><br><span class="line">&gt; &gt; getString(sb);</span><br><span class="line">&gt; &gt; System.out.println(sb);</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getString</span><span class="params">(StringBuffer s)</span> </span>&#123;</span><br><span class="line">&gt; &gt; <span class="comment">//s = new StringBuffer("ha");</span></span><br><span class="line">&gt; &gt; s.append(<span class="string">"world"</span>);</span><br><span class="line">&gt; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>在上面这个例子中,当前输出结果为:hello world。这并没有什么问题，可能就是大家平常所理解的引用传递，那么当然会改变StringBuffer的内容。但是如果把上面的注释去掉，那么就会输出:hello.此时sb的值并没有变成ha hello. 假如说是引用传递的话，那么形参的s也就是sb的地址，此时在方法里new StringBuffer（），并将该对象赋给s，也就是说s现在指向了这个新创建的对象.按照引用传递的说法，此时对s的改变就是对sb的操作，也就是说sb应该也指向新创建的对象，那么输出的结果应该为ha world.但实际上输出的仅是hello.这说明sb指向的还是原来的对象，而形参s指向的才是创建的对象,这也就验证了java中的对象传递也是值传递。</p>
+</blockquote>
+<h2 id="7-接口和抽象类的区别是什么"><a href="#7-接口和抽象类的区别是什么" class="headerlink" title="7.接口和抽象类的区别是什么?"></a>7.接口和抽象类的区别是什么?</h2><blockquote>
+<p>不同点在于：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>接口中所有的方法隐含的都是抽象的。而抽象类则可以同时包含抽象和非抽象的方法。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>类可以实现很多个接口，但是只能继承一个抽象类</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>类如果要实现一个接口，它必须要实现接口声明的所有方法。但是，类可以不实现抽象类声明的所有方法，当然，在这种情况下，类也必须得声明成是抽象的。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>抽象类可以在不提供接口方法实现的情况下实现接口。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>Java 接口中声明的变量默认都是 final 的。抽象类可以包含非 final 的变量。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>Java 接口中的成员函数默认是 public 的。抽象类的成员函数可以是 private，protected 或者是 public 。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>接口是绝对抽象的，不可以被实例化(java 8已支持在接口中实现默认的方法)。抽象类也不可以被实例化，但是，如果它包含 main 方法的话是可以被调用的。</p>
+</blockquote>
+</blockquote>
+<h2 id="8-构造器（constructor）是否可被重写（override）"><a href="#8-构造器（constructor）是否可被重写（override）" class="headerlink" title="8.构造器（constructor）是否可被重写（override）?"></a>8.构造器（constructor）是否可被重写（override）?</h2><blockquote>
+<p>构造方法是不能被子类重写的，但是构造方法可以重载，也就是说一个类可以有多个构造方法。</p>
+</blockquote>
+<h2 id="9-Math-round-11-5-等于多少-Math-round-11-5-等于多少"><a href="#9-Math-round-11-5-等于多少-Math-round-11-5-等于多少" class="headerlink" title="9.Math.round(11.5) 等于多少? Math.round(-11.5)等于多少?"></a>9.Math.round(11.5) 等于多少? Math.round(-11.5)等于多少?</h2><blockquote>
+<p>Math.round(11.5)==12 Math.round(-11.5)==-11 round 方法返回与参数 最接近的长整数，参数加 1/2 后求其 floor.</p>
+</blockquote>
+<h2 id="10-String-StringBuffer-StringBuilder的区别。"><a href="#10-String-StringBuffer-StringBuilder的区别。" class="headerlink" title="10. String, StringBuffer StringBuilder的区别。"></a>10. String, StringBuffer StringBuilder的区别。</h2><blockquote>
+<p>String 的长度是不可变的；</p>
+</blockquote>
+<blockquote>
+<p>StringBuffer的长度是可变的，如果你对字符串中的内容经常进行操作，特别是内容要修改时，那么使用 StringBuffer，如果最后需要 &gt;String，那么使用 StringBuffer 的 toString() 方法；线程安全；</p>
+</blockquote>
+<blockquote>
+<p>StringBuilder 是从 JDK 5 开始，为StringBuffer该类补充了一个单个线程使用的等价类；通常应该优先使用 StringBuilder 类，因&gt;为它支持所有相同的操作，但由于它不执行同步，所以速度更快。<br>使用字符串的时候要特别小心，如果对一个字符串要经常改变的话，就一定不要用String,否则会创建许多无用的对象出来.<br>来看一下比较</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">"hello"</span>+<span class="string">"world"</span>+<span class="string">"i love you"</span>;</span><br><span class="line">StringBuffer Sb = <span class="keyword">new</span> StringBuilder(<span class="string">"hello"</span>).append(<span class="string">"world"</span>).append(<span class="string">"i love you"</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个时候s有多个字符串进行拼接，按理来说会有多个对象产生，但是jvm会对此进行一个优化，也就是说只创建了一个对象，此时它的执行速度要比StringBuffer拼接快.再看下面这个:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String s2 = <span class="string">"hello"</span>;  </span><br><span class="line">String s3 = <span class="string">"world"</span>;  </span><br><span class="line">String s4 = <span class="string">"i love you"</span>;  </span><br><span class="line">String s1 = s2 + s3 + s4;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>上面这种情况，就会多创建出来三个对象，造成了内存空间的浪费.</p>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/面试/" rel="tag">#面试</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/16/java/java-qa-2/" rel="prev">java基础面试系列-2</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/11/git/git-学习笔记/" rel="next">git-学习笔记</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+              
+
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                         
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            <!--
+            
+            -->
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="moonights" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">moonights</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/moonights" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moonights" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/moonights" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/moonights" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://moonights.github.io/about/" target="_blank">About</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？"><span class="nav-number">1.</span> <span class="nav-text">1.什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-JDK和JRE的区别是什么？"><span class="nav-number">2.</span> <span class="nav-text">2.JDK和JRE的区别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？"><span class="nav-number">3.</span> <span class="nav-text">3.”static”关键字是什么意思？Java中是否可以覆盖一个private或者是static的方法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Java支持的基本数据类型有哪些？什么是自动拆装箱？"><span class="nav-number">4.</span> <span class="nav-text">4.Java支持的基本数据类型有哪些？什么是自动拆装箱？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Java支持多继承么？如果不支持，如何实现"><span class="nav-number">5.</span> <span class="nav-text">5.Java支持多继承么？如果不支持，如何实现?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-什么是值传递和引用传递？java中是值传递还是引用传递，还是都有"><span class="nav-number">6.</span> <span class="nav-text">6.什么是值传递和引用传递？java中是值传递还是引用传递，还是都有?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-接口和抽象类的区别是什么"><span class="nav-number">7.</span> <span class="nav-text">7.接口和抽象类的区别是什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-构造器（constructor）是否可被重写（override）"><span class="nav-number">8.</span> <span class="nav-text">8.构造器（constructor）是否可被重写（override）?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Math-round-11-5-等于多少-Math-round-11-5-等于多少"><span class="nav-number">9.</span> <span class="nav-text">9.Math.round(11.5) 等于多少? Math.round(-11.5)等于多少?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-String-StringBuffer-StringBuilder的区别。"><span class="nav-number">10.</span> <span class="nav-text">10. String, StringBuffer StringBuilder的区别。</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2019
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moonights
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  <script type="text/javascript">
+    var disqus_shortname = 'moonights';
+    var disqus_identifier = '2016/07/12/java/java-qa-1/';
+    var disqus_title = 'java基础面试系列-1';
+    var disqus_url = 'http://blog.moonights.com/2016/07/12/java/java-qa-1/';
+
+    function run_disqus_script(disqus_script){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    run_disqus_script('count.js');
+    
+      run_disqus_script('embed.js');
+    
+  </script>
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
