@@ -1,0 +1,1033 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="xxx" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观." />
+
+
+
+  <meta name="keywords" content="java,thread," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="moonights's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言在JDK5之前，Java多线程以及其性能一直是个软肋，只有synchronized、Thread.sleep()、Object.wait/notify这样有限的方法，而synchronized的效率还特别地低，开销比较大。在JDK5之后，相对于前面版本有了重大改进，不仅在Java语法上有了很多改进，包括：泛型、装箱、for循环、变参等，在多线程上也有了彻底提高，其引进了并发编程大师Doug L">
+<meta name="keywords" content="java,thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发系列-1.线程基础">
+<meta property="og:url" content="http://blog.moonights.com/2018/11/02/java/thread/java-thread-01/index.html">
+<meta property="og:site_name" content="moonights&#39;s blog">
+<meta property="og:description" content="前言在JDK5之前，Java多线程以及其性能一直是个软肋，只有synchronized、Thread.sleep()、Object.wait/notify这样有限的方法，而synchronized的效率还特别地低，开销比较大。在JDK5之后，相对于前面版本有了重大改进，不仅在Java语法上有了很多改进，包括：泛型、装箱、for循环、变参等，在多线程上也有了彻底提高，其引进了并发编程大师Doug L">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.moonights.com/2018/11/02/java/thread/java-thread-01/thread01.png">
+<meta property="og:updated_time" content="2019-12-09T02:28:54.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java并发系列-1.线程基础">
+<meta name="twitter:description" content="前言在JDK5之前，Java多线程以及其性能一直是个软肋，只有synchronized、Thread.sleep()、Object.wait/notify这样有限的方法，而synchronized的效率还特别地低，开销比较大。在JDK5之后，相对于前面版本有了重大改进，不仅在Java语法上有了很多改进，包括：泛型、装箱、for循环、变参等，在多线程上也有了彻底提高，其引进了并发编程大师Doug L">
+<meta name="twitter:image" content="http://blog.moonights.com/2018/11/02/java/thread/java-thread-01/thread01.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> Java并发系列-1.线程基础 | moonights's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'xxx', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?xxx";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">1900</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'xxx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        亮
+    </button>
+
+</div>
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Java并发系列-1.线程基础
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-11-02T19:34:15+08:00" content="2018-11-02">
+            2018-11-02
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/java/" itemprop="url" rel="index">
+                  <span itemprop="name">java</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/11/02/java/thread/java-thread-01/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/02/java/thread/java-thread-01/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在JDK5之前，Java多线程以及其性能一直是个软肋，只有synchronized、Thread.sleep()、Object.wait/notify这样有限的方法，而synchronized的效率还特别地低，开销比较大。<br>在JDK5之后，相对于前面版本有了重大改进，不仅在Java语法上有了很多改进，包括：泛型、装箱、for循环、变参等，在多线程上也有了彻底提高，其引进了并发编程大师Doug Lea的java.util.concurrent包(后面简称J.U.C)，支持了现代CPU的CAS原语，不仅在性能上有了很大提升，在自由度上也有了更多的选择，此时 J.U.C的效率在高并发环境下的效率远优于synchronized。<br>在JDK6（Mustang 野马）中，对synchronized的内在机制做了大量显著的优化，加入了CAS的概念以及偏向锁、轻量级锁，使得synchronized的效率与J.U.C不相上下，并且官方说后面该关键字还有继续优化的空间，所以在现 在JDK7时代，synchronized已经成为一般情况下的首选，在某些特殊场景：可中断的锁、条件锁、等待获得锁一段时间如果失败则停止，J.U.C是适用的，所以对于 多线程研究来说，了解其原理以及各自的适用场景是必要的。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>线程是依附于进程的，进程是分配资源的最小单位，一个进程可以生成多个线程，这些线程拥有共享的进程资源。就每个线程而言，只有很少的独有资源，如：控制线程运行的线程控制块，保留局部变量和少数参数的栈空间等。线程有就绪、阻塞和运行三种状态，并可以在这之间切换。也正因为多个线程会共享进程资源，所以当它们对同一个共享变量/对象进行操作的时候，线程的冲突和不一致性就产生了。<br>多线程并发环境下，本质上要解决地是这两个问题：</p>
+<blockquote>
+<p>线程之间如何通信；<br>线程之间如何同步；</p>
+</blockquote>
+<p>概括起来说就是：线程之间如何正确地通信。虽然说的是在Java层面如何保证，但会涉及到 Java虚拟机、Java内存模型，以及Java这样的高级语言最终是要映射到CPU来执行（关键原因：如今的CPU有缓存、并且是多核的），虽然有些难懂，但对于深刻把握多线程是至关重要的，所以需要多花一些时间。</p>
+<h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><p>当多个线程对同一个共享变量/对象进行操作，即使是最简单的操作，如：i++，在处理上实际也涉及到读取、自增、赋值这三个操作，也就是说 这中间存在时间差，导致多个线程没有按照如程序编写者所设想的去顺序执行，出现错位，从而导致最终结果与预期不一致。<br>Java中的多线程同步是通过锁的概念来体现。锁不是一个对象、不是一个具体的东西，而是一种机制的名称。锁机制需要保证如下两种特性：</p>
+<blockquote>
+<p>互斥性：即在同一时间只允许一个线程持有某个对象锁，通过这种特性来实现多线程中的协调机制，这样在同一时间只有一个线程对需同步的代码块(复合操作)进行访问。互斥性我们也往往称为操作的原子性；<br>可见性：必须确保在锁被释放之前，对共享变量所做的修改，对于随后获得该锁的另一个线程是可见的（即在获得锁时应获得最新共享变量的值），否则另一个线程可能是在本地缓存的某个副本上继续操作从而引起不一致；</p>
+</blockquote>
+<h3 id="挂起、休眠、阻塞与非阻塞"><a href="#挂起、休眠、阻塞与非阻塞" class="headerlink" title="挂起、休眠、阻塞与非阻塞"></a>挂起、休眠、阻塞与非阻塞</h3><p>挂起（Suspend）：当线程被挂起的时候，其会失去CPU的使用时间，直到被其他线程（用户线程或调度线程）唤醒。<br>休眠（Sleep）：同样是会失去CPU的使用时间，但是在过了指定的休眠时间之后，它会自动激活，无需唤醒（整个唤醒表面看是自动的，但实际上也得有守护线程去唤醒，只是不需编程者手动干预）。<br>阻塞（Block）：在线程执行时，所需要的资源不能得到，则线程被挂起，直到满足可操作的条件。<br>非阻塞(Block)：在线程执行时，所需要的资源不能得到，则线程不是被挂起等待，而是继续执行其余事情，待条件满足了之后，收到了通知（同样是守护线程去做）再执行。</p>
+<p>挂起和休眠是独立的操作系统的概念，而阻塞与非阻塞则是在资源不能得到时的两种处理方式，不限于操作系统，当资源申请不到时，要么挂起线程等待、要么继续执行其他操作，资源被满足后再通知该线程重新请求。显然非阻塞的效率要高于阻塞，相应的实现的复杂度也要高一些。</p>
+<p>在Java中显式的挂起之前是通过Thread的suspend方法来体现，现在此概念已经消失，原因是suspend/resume方法已经被废弃，它们容易产生死锁，在suspend方法的注释里有这么一段话：当suspend的线程持有某个对象锁，而resume它的线程又正好需要使用此锁的时候，死锁就产生了。<br>所以，现在的JDK版本中，挂起是JVM的系统行为，程序员无需干涉。休眠的过程中也不会释放锁，但它一定会在某个时间后被唤醒，所以不会死锁。现在我们所说的挂起，往往并非指编写者的程序里主动挂起，而是由操作系统的线程调度器去控制。<br>所以，我们常常说的“线程在申请锁失败后会被挂起、然后等待调度”这样有一定歧义，因为这里的“挂起”是操作系统级别的挂起，其实是在申请资源失败时的阻塞，和Java中的线程的挂起（可能已经获得锁，也可能没有锁，总之和锁无关）不是一个概念，很容易混淆，所以在后文中说的挂起，一般指的是操作系统的操作，而不是Thread中的suspend()。<br>相应地有必要提下java.lang.Object的wait/notify，这两个方法同样是等待/通知，但它们的前提是已经获得了锁，且在wait（等待）期间会释放锁。在wait方法的注释里明确提到：线程要调用wait方法，必须先获得该对象的锁，在调用wait之后，当前线程释放该对象锁并进入休眠（这里到底是进入休眠还是挂起？文档没有细说，从该方法能指定等待时间来看，更可能是休眠，没有指定等待时间的，则可能是挂起，不管如何，在休眠/挂起之前，JVM都会从当前线程中把该对象锁释放掉），只有以下几种情况下会被唤醒：其他线程调用了该对象的notify或notifyAll、当前线程被中断、调用wait时指定的时间已到。</p>
+<h3 id="内核态与用户态"><a href="#内核态与用户态" class="headerlink" title="内核态与用户态"></a>内核态与用户态</h3><p>这是两个操作系统的概念，但理解它们对我们理解Java的线程机制有着一定帮助。<br>有一些系统级的调用，比如：清除时钟、创建进程等这些系统指令，如果这些底层系统级指令能够被应用程序任意访问的话，那么后果是危险的，系统随时可能崩溃，所以 CPU将所执行的指令设置为多个特权级别，在硬件执行每条指令时都会校验指令的特权，比如：Intel x86架构的CPU将特权分为0-3四个特权级，0级的权限最高，3权限最低。<br>而操作系统根据这系统调用的安全性分为两种：内核态和用户态。内核态执行的指令的特权是0，用户态执行的指令的特权是3。</p>
+<p>当一个任务（进程）执行系统调用而进入内核指令执行时，进程处于内核运行态（或简称为内核态）；<br>当任务（进程）执行自己的代码时，进程就处于用户态；</p>
+<p>明白了内核态和用户态的概念之后，那么在这两种状态之间切换会造成什么样的效率影响？</p>
+<p>在执行系统级调用时，需要将变量传递进去、可能要拷贝、计数、保存一些上下文信息，然后内核态执行完成之后需要再将参数传递到用户进程中去，这个切换的代价相对来说是比较大的，所以应该是 尽量避免频繁地在内核态和用户态之间切换。</p>
+<p>那操作系统的这两种形态和我们的线程主题有什么关系呢？这里是关键。Java并没有自己的线程模型，而是使用了操作系统的原生线程！<br>如果要实现自己的线程模型，那么有些问题就特别复杂，难以解决，比如：如何处理阻塞、如何在多CPU之间合理地分配线程、如何锁定，包括创建、销毁线程这些，都需要Java自己来做，在JDK1.2之前Java曾经使用过自己实现的线程模型，后来放弃了，转向使用操作系统的线程模型，因此创建、销毁、调度、阻塞等这些事都交由操作系统来做，而 线程方面的事在操作系统来说属于系统级的调用，需要在内核态完成，所以如果频繁地执行线程挂起、调度，就会频繁造成在内核态和用户态之间切换，影响效率（当然，操作系统的线程操作是不允许外界（包括Java虚拟机）直接访问的，而是开放了叫“轻量级进程”的接口供外界使用，其与内核线程在Window和Linux上是一对一的关系，这里不多叙述）。</p>
+<p>前面说JDK5之前的synchronized效率低下，是 因为在阻塞时线程就会被挂起、然后等待重新调度，而线程操作属于内核态，这频繁的挂起、调度使得操作系统频繁处于内核态和用户态的转换，造成频繁的变量传递、上下文保存等，从而性能较低。</p>
+<h2 id="线程优势"><a href="#线程优势" class="headerlink" title="线程优势"></a>线程优势</h2><p>尽管面临很多挑战，多线程有一些优点使得它一直被使用。这些优点是：</p>
+<p>资源利用率更好；<br>程序设计在某些情况下更简单；<br>程序响应更快速；</p>
+<h3 id="资源利用率更好"><a href="#资源利用率更好" class="headerlink" title="资源利用率更好"></a>资源利用率更好</h3><p>CPU能够在等待IO的时候做一些其他的事情。这个不一定就是磁盘IO。它也可以是网络的IO，或者用户输入。通常情况下，网络和磁盘的IO比CPU和内存的IO慢的多。</p>
+<h3 id="程序设计更简单"><a href="#程序设计更简单" class="headerlink" title="程序设计更简单"></a>程序设计更简单</h3><p>在单线程应用程序中，如果你想编写程序手动处理多个IO的读取和处理的顺序，你必须记录每个文件读取和处理的状态。相反，你可以启动两个线程，每个线程处理一个文件的读取和处理操作。线程会在等待磁盘读取文件的过程中被阻塞。在等待的时候，其他的线程能够使用CPU去处理已经读取完的文件。其结果就是，磁盘总是在繁忙地读取不同的文件到内存中。这会带来磁盘和CPU利用率的提升。而且每个线程只需要记录一个文件，因此这种方式也很容易编程实现。</p>
+<h3 id="程序响应更快速"><a href="#程序响应更快速" class="headerlink" title="程序响应更快速"></a>程序响应更快速</h3><p>将一个单线程应用程序变成多线程应用程序的另一个常见的目的是 实现一个响应更快的应用程序。设想一个服务器应用，它在某一个端口监听进来的请求。当一个请求到来时，它去处理这个请求，然后再返回去监听。<br>如果一个请求需要占用大量的时间来处理，在这段时间内新的客户端就无法发送请求给服务端。只有服务器在监听的时候，请求才能被接收。<br>另一种设计是，监听线程把请求传递给工作者线程池(worker thread pool)，然后立刻返回去监听。而工作者线程则能够处理这个请求并发送一个回复给客户端。</p>
+<h2 id="线程代价"><a href="#线程代价" class="headerlink" title="线程代价"></a>线程代价</h2><p>使用多线程往往可以 获得更大的吞吐率和更短的响应时间，但是，使用多线程不一定就比单线程程序跑的快，这取决于我们程序设计者的能力以及应用场景的不同。不要为了多线程而多线程，而应考虑具体的应用场景和开发实力，使用多线程就是希望能够获得更快的处理速度和利用闲置的处理能力，如果没带来任何好处还带来了复杂性和一些定时炸弹，那就傻逼了？只有在使用多线程给我们带来的好处远大于我们付出的代价时，才考虑使用多线程。有时候可能引入多线程带来的性能提升抵不过多线程而引入的开销，一个没有经过良好并发设计得程序也可能比使用单线程还更慢。</p>
+<h3 id="设计更复杂"><a href="#设计更复杂" class="headerlink" title="设计更复杂"></a>设计更复杂</h3><p>多线程程序在访问共享可变数据的时候往往需要我们很小心的处理，否则就会出现难以发现的BUG，一般地，多线程程序往往比单线程程序设计会更加复杂（尽管有些单线程处理程序可能比多线程程序要复杂），而且错误很难重现（因为线程调度的无序性，某些bug的出现依赖于某种特定的线程执行时序）。</p>
+<h3 id="上下文切换开销"><a href="#上下文切换开销" class="headerlink" title="上下文切换开销"></a>上下文切换开销</h3><p>当CPU从执行一个线程切换到执行另外一个线程的时候，需要先存储当前线程的本地的数据，程序指针等，然后载入另一个线程的本地数据，程序指针等，最后才开始执行。这种切换称为 “上下文切换”(“context switch”)。CPU会在一个上下文中执行一个线程，然后切换到另外一个上下文中执行另外一个线程。</p>
+<p>上下文切换并不廉价。如果没有必要，应该减少上下文切换的发生。</p>
+<h3 id="增加资源消耗"><a href="#增加资源消耗" class="headerlink" title="增加资源消耗"></a>增加资源消耗</h3><p>线程在运行的时候需要从计算机里面得到一些资源。除了CPU，线程还需要一些内存来维持它本地的堆栈。它也需要占用操作系统中一些资源来管理线程。我们可以尝试编写一个程序，让它创建100个线程，这些线程什么事情都不做，只是在等待，然后看看这个程序在运行的时候占用了多少内存。</p>
+<h2 id="创建运行"><a href="#创建运行" class="headerlink" title="创建运行"></a>创建运行</h2><p>编写线程运行时执行的代码有两种方式：一种是创建Thread子类的一个实例并重写run方法，第二种是创建类的时候实现Runnable接口。</p>
+<h3 id="创建Thread的子类"><a href="#创建Thread的子类" class="headerlink" title="创建Thread的子类"></a>创建Thread的子类</h3><p>创建Thread子类的一个实例并重写run方法，run方法会在调用start()方法之后被执行。例子如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">     System.out.println(<span class="string">"MyThread running"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以用如下方式创建并运行上述Thread子类:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyThread myThread = <span class="keyword">new</span> MyThread();</span><br><span class="line">myTread.start();</span><br></pre></td></tr></table></figure></p>
+<p>一旦线程启动后start方法就会立即返回，而不会等待到run方法执行完毕才返回。就好像run方法是在另外一个cpu上执行一样。当run方法执行后，将会打印出字符串MyThread running。</p>
+<h3 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现Runnable接口</h3><p>第二种编写线程执行代码的方式是新建一个实现了java.lang.Runnable接口的类的实例，实例中的方法可以被线程调用。下面给出例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"MyRunnable running"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了使线程能够执行run()方法，需要在Thread类的构造函数中传入 MyRunnable的实例对象。示例如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable());</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure></p>
+<p>当线程运行时，它将会调用实现了Runnable接口的run方法。上例中将会打印出”MyRunnable running”。</p>
+<h3 id="创建子类还是实现Runnable接口？"><a href="#创建子类还是实现Runnable接口？" class="headerlink" title="创建子类还是实现Runnable接口？"></a>创建子类还是实现Runnable接口？</h3><p>对于这两种方式哪种好并没有一个确定的答案，它们都能满足要求。就个人意见，更倾向于实现Runnable接口这种方法。因为线程池可以有效的管理实现了Runnable接口的线程，如果线程池满了，新的线程就会排队等候执行，直到线程池空闲出来为止。而如果线程是通过实现Thread子类实现的，这将会复杂一些。<br>有时我们要同时融合实现Runnable接口和Thread子类两种方式。例如，实现了Thread子类的实例可以执行多个实现了Runnable接口的线程。一个典型的应用就是线程池。</p>
+<h3 id="常见错误：调用run-方法而非start-方法"><a href="#常见错误：调用run-方法而非start-方法" class="headerlink" title="常见错误：调用run()方法而非start()方法"></a>常见错误：调用run()方法而非start()方法</h3><p>创建并运行一个线程所犯的常见错误是调用线程的run()方法而非start()方法，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread newThread = <span class="keyword">new</span> Thread(MyRunnable());</span><br><span class="line">newThread.run();  <span class="comment">//should be start();</span></span><br></pre></td></tr></table></figure></p>
+<p>起初你并不会感觉到有什么不妥，因为run()方法的确如你所愿的被调用了。但是，事实上，run()方法并非是由刚创建的新线程所执行的，而是被创建新线程的当前线程所执行了。也就是被执行上面两行代码的线程所执行的。想要让创建的新线程执行run()方法，必须调用新线程的start()方法。</p>
+<h3 id="线程名"><a href="#线程名" class="headerlink" title="线程名"></a>线程名</h3><p>当创建一个线程的时候，可以给线程起一个名字。它有助于我们区分不同的线程。例如：如果有多个线程写入System.out，我们就能够通过线程名容易的找出是哪个线程正在输出。例子如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MyRunnable runnable = <span class="keyword">new</span> MyRunnable();</span><br><span class="line">Thread thread = <span class="keyword">new</span> Thread(runnable, <span class="string">"New Thread"</span>);</span><br><span class="line">thread.start();</span><br><span class="line">System.out.println(thread.getName());</span><br></pre></td></tr></table></figure></p>
+<p>复制代码需要注意的是，因为MyRunnable并非Thread的子类，所以MyRunnable类并没有getName()方法。可以通过以下方式得到当前线程的引用：<br>Thread.currentThread();<br>复制代码因此，通过如下代码可以得到当前线程的名字：<br>String threadName = Thread.currentThread().getName();<br>复制代码首先输出执行main()方法线程名字。这个线程JVM分配的。然后开启10个线程，命名为1~10。每个线程输出自己的名字后就退出。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadExample</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">     System.out.println(Thread.currentThread().getName());</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">         <span class="keyword">new</span> Thread(<span class="string">""</span> + i)&#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">             System.out.println(<span class="string">"Thread: "</span> + getName() + <span class="string">"running"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;.start();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是，尽管启动线程的顺序是有序的，但是执行的顺序并非是有序的。也就是说，1号线程并不一定是第一个将自己名字输出到控制台的线程。这是因为线程是并行执行而非顺序的。JVM和操作系统一起决定了线程的执行顺序，他和线程的启动顺序并非一定是一致的。</p>
+<h3 id="Main线程与子线程关系"><a href="#Main线程与子线程关系" class="headerlink" title="Main线程与子线程关系"></a>Main线程与子线程关系</h3><p>Main线程是个非守护线程，不能设置成守护线程<br>这是因为，Main线程是由Java虚拟机在启动的时候创建的。main方法开始执行的时候，主线程已经创建好并在运行了。对于运行中的线程，调用Thread.setDaemon()会抛出异常Exception in thread “main”     java.lang.IllegalThreadStateException。</p>
+<p>Main线程结束，其他线程一样可以正常运行<br>主线程，只是个普通的非守护线程，用来启动应用程序，不能设置成守护线程；除此之外，它跟其他非守护线程没有什么不同。主线程执行结束，其他线程一样可以正常执行。<br>这样其实是很合理的，按照操作系统的理论，进程是资源分配的基本单位，线程是CPU调度的基本单位。对于CPU来说，其实并不存在java的主线程和子线程之分，都只是个普通的线程。进程的资源是线程共享的，只要进程还在，线程就可以正常执行，换句话说线程是强依赖于进程的。也就是说：</p>
+<p>线程其实并不存在互相依赖的关系，一个线程的死亡从理论上来说，不会对其他线程有什么影响。</p>
+<p>Main线程结束，其他线程也可以立刻结束，当且仅当这些子线程都是守护线程<br>Java虚拟机（相当于进程）退出的时机是：虚拟机中所有存活的线程都是守护线程。只要还有存活的非守护线程虚拟机就不会退出，而是等待非守护线程执行完毕；反之，如果虚拟机中的线程都是守护线程，那么不管这些线程的死活java虚拟机都会退出。</p>
+<h2 id="再聊并发与并行"><a href="#再聊并发与并行" class="headerlink" title="再聊并发与并行"></a>再聊并发与并行</h2><p>并发和并行的区别就是一个处理器同时处理多个任务和多个处理器或者是多核的处理器同时处理多个不同的任务。前者是逻辑上的同时发生（simultaneous），而后者是物理上的同时发生。</p>
+<p>并发性(concurrency)，又称共行性，是指能处理多个同时性活动的能力，并发事件之间不一定要同一时刻发生。<br>并行(parallelism)是指同时发生的两个并发事件，具有并发的含义，而并发则不一定并行。<br>来个比喻：并发和并行的区别就是一个人同时吃三个馒头和三个人同时吃三个馒头。</p>
+<p><img src="/2018/11/02/java/thread/java-thread-01/thread01.png" alt="concurrency"></p>
+<p>上图反映了一个包含8个操作的任务在一个有两核心的CPU中创建四个线程运行的情况。假设每个核心有两个线程，那么每个CPU中两个线程会交替并发，两个CPU之间的操作会并行运算。单就一个CPU而言两个线程可以解决线程阻塞造成的不流畅问题，其本身运行效率并没有提高，多CPU的并行运算才真正解决了运行效率问题，这也正是并发和并行的区别。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/thread/" rel="tag">#thread</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/03/java/thread/java-thread-02/" rel="prev">Java并发系列-2.Java线程的生命周期</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/18/java/java-05-HashMap/" rel="next">java技术集锦（5）HashMap</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+              
+
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                         
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <div class="bdsharebuttonbox">
+	<a href="#" class="bds_more" data-cmd="more"></a>
+	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+</div>
+<script>
+    window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            <!--
+            
+            -->
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="moonights" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">moonights</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">所有相皆是虚妄,一切有为法如梦幻泡影，如露亦如电当作如是观.</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/moonights" target="_blank">GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/moonights" target="_blank">Twitter</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/moonights" target="_blank">Weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/moonights" target="_blank">ZhiHu</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="https://moonights.github.io/about/" target="_blank">About</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">2.1.</span> <span class="nav-text">线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">3.</span> <span class="nav-text">锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#挂起、休眠、阻塞与非阻塞"><span class="nav-number">3.1.</span> <span class="nav-text">挂起、休眠、阻塞与非阻塞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核态与用户态"><span class="nav-number">3.2.</span> <span class="nav-text">内核态与用户态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程优势"><span class="nav-number">4.</span> <span class="nav-text">线程优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源利用率更好"><span class="nav-number">4.1.</span> <span class="nav-text">资源利用率更好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序设计更简单"><span class="nav-number">4.2.</span> <span class="nav-text">程序设计更简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序响应更快速"><span class="nav-number">4.3.</span> <span class="nav-text">程序响应更快速</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程代价"><span class="nav-number">5.</span> <span class="nav-text">线程代价</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计更复杂"><span class="nav-number">5.1.</span> <span class="nav-text">设计更复杂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文切换开销"><span class="nav-number">5.2.</span> <span class="nav-text">上下文切换开销</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加资源消耗"><span class="nav-number">5.3.</span> <span class="nav-text">增加资源消耗</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建运行"><span class="nav-number">6.</span> <span class="nav-text">创建运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Thread的子类"><span class="nav-number">6.1.</span> <span class="nav-text">创建Thread的子类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现Runnable接口"><span class="nav-number">6.2.</span> <span class="nav-text">实现Runnable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建子类还是实现Runnable接口？"><span class="nav-number">6.3.</span> <span class="nav-text">创建子类还是实现Runnable接口？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见错误：调用run-方法而非start-方法"><span class="nav-number">6.4.</span> <span class="nav-text">常见错误：调用run()方法而非start()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程名"><span class="nav-number">6.5.</span> <span class="nav-text">线程名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Main线程与子线程关系"><span class="nav-number">6.6.</span> <span class="nav-text">Main线程与子线程关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再聊并发与并行"><span class="nav-number">7.</span> <span class="nav-text">再聊并发与并行</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2011 - 
+  <span itemprop="copyrightYear">2020
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moonights
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  <script type="text/javascript">
+    var disqus_shortname = 'moonights';
+    var disqus_identifier = '2018/11/02/java/thread/java-thread-01/';
+    var disqus_title = 'Java并发系列-1.线程基础';
+    var disqus_url = 'http://blog.moonights.com/2018/11/02/java/thread/java-thread-01/';
+
+    function run_disqus_script(disqus_script){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }
+
+    run_disqus_script('count.js');
+    
+      run_disqus_script('embed.js');
+    
+  </script>
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

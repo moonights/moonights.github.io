@@ -3433,6 +3433,194 @@
           
           
             
+              <a class="post-title-link" href="/2018/07/28/java/java-02-gc/" itemprop="url">
+                java技术集锦（2）JVM垃圾回收
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-07-28T19:34:15+08:00" content="2018-07-28">
+            2018-07-28
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/java/" itemprop="url" rel="index">
+                  <span itemprop="name">java</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/07/28/java/java-02-gc/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/28/java/java-02-gc/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            判断对象是否可回收有几种方式？引用计数算法
+优点：实现简单，判定高效；缺点：很难解决对象之间相互循环引用的问题；
+可达性分析算法
+通过一系列”GC Roots”对象作为起始点，开始向下搜索，当一个对象到GC Roots没有任何引用链相连时（从GC Roots到这个对象不可达），则证明该对象是不可用的
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/07/28/java/java-02-gc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/07/11/db/mysql/mysql-time/" itemprop="url">
+                mysql-定时执行语句动态获取前10分钟数据范围
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-07-11T19:34:15+08:00" content="2018-07-11">
+            2018-07-11
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/mysql/" itemprop="url" rel="index">
+                  <span itemprop="name">mysql</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/07/11/db/mysql/mysql-time/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/11/db/mysql/mysql-time/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            应用场景需要定时执行sql从源表做统计抽取数据到目标表,执行时间为每10分钟执行一次，对目标表的数据进行筛选，筛选执行当前时间点的前10分钟的数据。比如:sql  执行时间为 ： 9:51-9:59where条件过滤的数据范围为：9:40-9:50
+sql  执行时间为 ： 10:01-10:09w
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/07/11/db/mysql/mysql-time/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2018/06/25/python/python-note/" itemprop="url">
                 python-学习笔记系列-提纲
               </a>
@@ -3623,8 +3811,8 @@ JVM运行时数据区域？
           
           
             
-              <a class="post-title-link" href="/2018/04/16/python/python-note/python-note-3/" itemprop="url">
-                python-学习笔记系列：三、逻辑
+              <a class="post-title-link" href="/2018/06/11/docs/net/计算机网络/" itemprop="url">
+                计算机网络
               </a>
             
           
@@ -3634,8 +3822,314 @@ JVM运行时数据区域？
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-04-16T12:55:43+08:00" content="2018-04-16">
-            2018-04-16
+          <time itemprop="dateCreated" datetime="2018-06-11T11:57:46+08:00" content="2018-06-11">
+            2018-06-11
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/network/" itemprop="url" rel="index">
+                  <span itemprop="name">network</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/06/11/docs/net/计算机网络/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/11/docs/net/计算机网络/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+一 OSI与TCP/IP各层的结构与功能,都有哪些协议?
+1.1 应用层
+1.2 运输层
+1.3 网络层
+1.4 数据链路层
+1.5 物理层
+1.6 总结一下
+
+
+二 TCP 三次握手和四次挥手(面试常客)
+2.1 TCP 三次握手漫画图解
+2.2 为什么要三次握手
+2.3 为什么要传回 SYN
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/06/11/docs/net/计算机网络/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/06/11/docs/net/干货：计算机网络知识总结/" itemprop="url">
+                干货：计算机网络知识总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-06-11T11:57:46+08:00" content="2018-06-11">
+            2018-06-11
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/network/" itemprop="url" rel="index">
+                  <span itemprop="name">network</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/06/11/docs/net/干货：计算机网络知识总结/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/11/docs/net/干货：计算机网络知识总结/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+目录结构
+1. 计算机概述 2. 物理层 3. 数据链路层 4. 网络层 5. 运输层 6. 应用层一计算机概述（1），基本术语  结点 （node）：网络中的结点可以是计算机，集线器，交换机或路由器等。
+  链路（link  ）：从一个结点到另一个结点的一段物理线路。中间没有任何其他交点。
+ 主
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/06/11/docs/net/干货：计算机网络知识总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/06/11/docs/net/HTTPS中的TLS/" itemprop="url">
+                HTTPS中的TLS
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-06-11T11:57:46+08:00" content="2018-06-11">
+            2018-06-11
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/network/" itemprop="url" rel="index">
+                  <span itemprop="name">network</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2018/06/11/docs/net/HTTPS中的TLS/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/11/docs/net/HTTPS中的TLS/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            
+
+1. SSL 与 TLS
+2. 从网络协议的角度理解 HTTPS
+3. 从密码学的角度理解 HTTPS
+3.1. TLS 工作流程
+3.2. 密码基础
+3.2.1. 伪随机数生成器
+3.2.2. 消息认证码
+3.2.3. 数字签名
+3.2.4. 公钥密码
+3.2.5. 证书
+3.2.6. 密码小
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/06/11/docs/net/HTTPS中的TLS/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2018/04/28/python/python-note-8/" itemprop="url">
+                python-学习笔记系列：七、模块
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-04-28T11:55:43+08:00" content="2018-04-28">
+            2018-04-28
           </time>
         </span>
 
@@ -3660,8 +4154,8 @@ JVM运行时数据区域？
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2018/04/16/python/python-note/python-note-3/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/16/python/python-note/python-note-3/" itemprop="commentsCount"></span>
+            <a href="/2018/04/28/python/python-note-8/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/28/python/python-note-8/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -3678,12 +4172,14 @@ JVM运行时数据区域？
         
           <span itemprop="articleBody">
             
-            python 逻辑for循环循环字符串12345678&gt;&gt;&gt; for eachLetter in "Names":...     print('letter:',eachLetter)...letter: Nletter: aletter: mletter: eletter: s
-
+            Python 模块(Module)，是一个 Python 文件，以 .py 结尾，包含了 Python 对象定义和Python语句。
+模块让你能够有逻辑地组织你的 Python 代码段。
+把相关的代码分配到一个模块里能让你的代码更好用，更易懂。
+模块能定义函数，类和变量，模块里也能包含可执行的代码。
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/16/python/python-note/python-note-3/#more" rel="contents">
+            <a class="btn" href="/2018/04/28/python/python-note-8/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3716,8 +4212,8 @@ JVM运行时数据区域？
           
           
             
-              <a class="post-title-link" href="/2018/04/15/python/python-note/python-note-2/" itemprop="url">
-                python-学习笔记系列：二、数据类型
+              <a class="post-title-link" href="/2018/04/26/python/python-note-7/" itemprop="url">
+                python-学习笔记系列：七、函数
               </a>
             
           
@@ -3727,8 +4223,8 @@ JVM运行时数据区域？
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-04-15T22:55:43+08:00" content="2018-04-15">
-            2018-04-15
+          <time itemprop="dateCreated" datetime="2018-04-26T11:55:43+08:00" content="2018-04-26">
+            2018-04-26
           </time>
         </span>
 
@@ -3753,8 +4249,8 @@ JVM运行时数据区域？
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2018/04/15/python/python-note/python-note-2/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/python/python-note/python-note-2/" itemprop="commentsCount"></span>
+            <a href="/2018/04/26/python/python-note-7/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/26/python/python-note-7/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -3771,15 +4267,11 @@ JVM运行时数据区域？
         
           <span itemprop="articleBody">
             
-            数据类型变量存储在内存中的值。这就意味着在创建变量时会在内存中开辟一个空间。
-基于变量的数据类型，解释器会分配指定内存，并决定什么数据可以被存储在内存中。
-因此，变量可以指定不同的数据类型，这些变量可以存储整数，小数或字符。
-数字
-长整型也可以使用小写 l，但是还是建议您使用大写 L，避免与数字 1
+            函数定义和属性python将函数的声明和定义视为一体，函数的子句由声明的标题行以及随后的定义体组成。1234567891011121314151617&gt;&gt;&gt; def foo():...     '''...     this is a function...     '''... 
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/15/python/python-note/python-note-2/#more" rel="contents">
+            <a class="btn" href="/2018/04/26/python/python-note-7/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -3812,8 +4304,8 @@ JVM运行时数据区域？
           
           
             
-              <a class="post-title-link" href="/2018/04/15/python/python-note/python-note-1/" itemprop="url">
-                python-学习笔记系列：一、基本语法
+              <a class="post-title-link" href="/2018/04/22/python/python-note-6/" itemprop="url">
+                python-学习笔记系列：六、环境调用
               </a>
             
           
@@ -3823,8 +4315,8 @@ JVM运行时数据区域？
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2018-04-15T10:55:43+08:00" content="2018-04-15">
-            2018-04-15
+          <time itemprop="dateCreated" datetime="2018-04-22T11:55:43+08:00" content="2018-04-22">
+            2018-04-22
           </time>
         </span>
 
@@ -3849,8 +4341,8 @@ JVM运行时数据区域？
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2018/04/15/python/python-note/python-note-1/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/python/python-note/python-note-1/" itemprop="commentsCount"></span>
+            <a href="/2018/04/22/python/python-note-6/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/22/python/python-note-6/" itemprop="commentsCount"></span>
             </a>
           </span>
           
@@ -3867,487 +4359,12 @@ JVM运行时数据区域？
         
           <span itemprop="articleBody">
             
-            一、基本语法python2.x与python3.x区别很大，新版特性很强，更优化，此笔记学习新版本特性，暂不关注旧版本。
-标识符标识符：数字、字母、下划线，且数字不开头。
-区分大小写；
-单下划线开头_foo表示不能直接访问，需要用接口访问，不可”from xxx import”导入。__foo双下划
+            通过python调用系统命令python的OS模块。OS模块调用CMD命令有两种方式：os.popen(),os.system(). 都是用当前进程来调用。
+os.system是无法获取返回值的。当运行结束后接着往下面执行程序。用法如：OS.system(&quot;ipconfig&quot;).
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/15/python/python-note/python-note-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/04/13/linux/linux-command/" itemprop="url">
-                开发必会的Linux命令
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-04-13T11:55:41+08:00" content="2018-04-13">
-            2018-04-13
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/linux/" itemprop="url" rel="index">
-                  <span itemprop="name">linux</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2018/04/13/linux/linux-command/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/13/linux/linux-command/" itemprop="commentsCount"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            本文并不会对所有命令进行详细讲解，只给出常见用法和解释。具体用法可以使用–help查看帮助或者直接通过google搜索学习。
-查找文件find / -name filename.txt 根据名称查找/目录下的filename.txt文件。find . -name “.xml” 递归查找所有的xml文
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/13/linux/linux-command/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/04/03/linux/nginx-note/" itemprop="url">
-                nginx-学习笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-04-03T11:55:41+08:00" content="2018-04-03">
-            2018-04-03
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/nginx/" itemprop="url" rel="index">
-                  <span itemprop="name">nginx</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2018/04/03/linux/nginx-note/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/03/linux/nginx-note/" itemprop="commentsCount"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            前言Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/03/linux/nginx-note/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/04/03/linux/lvs负载均衡机制/" itemprop="url">
-                lvs负载均衡机制
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-04-03T11:55:41+08:00" content="2018-04-03">
-            2018-04-03
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/架构/" itemprop="url" rel="index">
-                  <span itemprop="name">架构</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2018/04/03/linux/lvs负载均衡机制/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/03/linux/lvs负载均衡机制/" itemprop="commentsCount"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            LVS负载均衡的转发机制
-LVS是Linux Virtual Server的简写，是国人贡献到LINUX内核的第一个重要模块，是负载均衡的主流技术
-LVS是如何把用户请求转给应用服务器的？
-它的转换机制主要有3个
-（1）网络地址转换 NAT
-当用户请求到达调度器时，调度器从一组真实的应用服务器中选取
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/03/linux/lvs负载均衡机制/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/04/03/big-data/hadoop-hdfs-note/" itemprop="url">
-                hdfs-笔记
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-04-03T11:42:51+08:00" content="2018-04-03">
-            2018-04-03
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/big-data/" itemprop="url" rel="index">
-                  <span itemprop="name">big-data</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2018/04/03/big-data/hadoop-hdfs-note/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/03/big-data/hadoop-hdfs-note/" itemprop="commentsCount"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            hdfs-笔记HDFS（Hadoop Distributed File System ）Hadoop分布式文件系统。是根据google发表的论文翻版的。论文为GFS（Google File System）Google 文件系统（中文，英文）。
-hdfs特点HDFS有很多特点`保存多个副本，且提供容错
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/04/03/big-data/hadoop-hdfs-note/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2018/03/23/project/create_project/" itemprop="url">
-                开发阶段：(一).idea创建maven多模块项目
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2018-03-23T10:55:43+08:00" content="2018-03-23">
-            2018-03-23
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/project/" itemprop="url" rel="index">
-                  <span itemprop="name">project</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2018/03/23/project/create_project/#comments" itemprop="discussionUrl">
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/23/project/create_project/" itemprop="commentsCount"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            ## 
-
-
-maven来构建一个多模块的jave项目
-
-
-项目结构
-            
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2018/03/23/project/create_project/#more" rel="contents">
+            <a class="btn" href="/2018/04/22/python/python-note-6/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -4373,7 +4390,7 @@ maven来构建一个多模块的jave项目
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </nav>
 
  </div>
@@ -4405,21 +4422,21 @@ maven来构建一个多模块的jave项目
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -4491,7 +4508,7 @@ maven来构建一个多模块的jave项目
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp;  2011 - 
-  <span itemprop="copyrightYear">2019
+  <span itemprop="copyrightYear">2020
   </span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
